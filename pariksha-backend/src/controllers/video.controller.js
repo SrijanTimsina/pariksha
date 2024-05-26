@@ -36,7 +36,7 @@ const createVideo = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, createVideo, "Video Created"));
+    .json(new ApiResponse(200, createdVideo, "Video Created"));
 });
 
 export { createVideo };

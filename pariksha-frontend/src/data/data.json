@@ -1,0 +1,37 @@
+ {
+    "user" : {
+        "name" : "Srijan Timsina",
+        "email": "srijan.timsina.39@gmail.com",
+        "number" : "982014444",
+        "password" : "srijan",
+        "college location": "valley",
+        "abroad plans" : false,
+        "watch-history" : 
+        [
+            {
+                "subject-id" : "123456",
+                "current-video" : "abcdef"
+            },{
+                "subject-id" : "123456",
+                "current-video" : "abcdef"
+            },{
+                "subject-id" : "123456",
+                "current-video" : "abcdef"
+            }
+        ],
+        "test-history": 
+        [
+            {
+                "test-id" : "56789",
+                "score" : "70"
+            },{
+                "test-id" : "56789",
+                "score" : "70"
+            },{
+                "test-id" : "56789",
+                "score" : "70"
+            }
+        ] 
+    }
+    
+ }

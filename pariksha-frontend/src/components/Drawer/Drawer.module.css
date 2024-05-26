@@ -1,0 +1,23 @@
+.button {
+	transform: translateX(140px);
+	transition: all 800ms linear;
+}
+.button:hover {
+	transform: translateX(0);
+}
+
+.drawerContainer {
+	width: 100%;
+	max-width: 300px;
+	background-color: white;
+	display: none;
+	overflow: scroll;
+	position: fixed;
+	top: 64px;
+	bottom: 0;
+	right: 0;
+	border-left: 1px solid #d1d7dc;
+}
+.show {
+	display: block;
+}

@@ -26,4 +26,29 @@ const createCourse = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, createdCourse, "Course Created"));
 });
 
-export { createCourse };
+const getAllCourses = asyncHandler(async (req, res) => {
+  const courses = await Course.find({});
+  return res
+    .status(200)
+    .json(new ApiResponse(200, courses, "Courses fetched successfully."));
+});
+
+const getCourseData = asyncHandler(async (req, res) => {
+  const { link } = req.params;
+
+  const course = await Course.findOne({ link: link }).populate({
+    path: "subjects",
+    populate: {
+      path: "sections",
+      populate: {
+        path: "videos",
+      },
+    },
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, course, "Courses fetched successfully."));
+});
+
+export { createCourse, getAllCourses, getCourseData };

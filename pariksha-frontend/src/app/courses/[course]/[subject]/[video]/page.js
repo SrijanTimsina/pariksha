@@ -1,7 +1,7 @@
 "use client";
 
 import Drawer from "@/components/Drawer/Drawer";
-import MainVideo from "@/components/MainVideo.jsx";
+import Video from "@/components/Video";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getVideo } from "@/hooks/videos";
@@ -31,7 +31,7 @@ export default function Course({ params }) {
 
 	return (
 		<div className="relative flex w-full ">
-			{videoData && <MainVideo url={videoData.videoFile} />}
+			{videoData && <Video url={videoData.videoFile} />}
 			<Drawer
 				videoId={videoId}
 				courseTitle={courseTitle}

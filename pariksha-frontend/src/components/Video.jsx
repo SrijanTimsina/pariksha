@@ -2,7 +2,7 @@
 
 import React from "react";
 
-export default function MainVideo({ url }) {
+export default function Video({ url }) {
 	return (
 		<div className="flex-1">
 			<iframe

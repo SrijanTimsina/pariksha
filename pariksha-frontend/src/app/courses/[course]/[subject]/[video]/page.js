@@ -1,7 +1,7 @@
 "use client";
 
 import Drawer from "@/components/Drawer/Drawer";
-import MainVideo from "@/components/MainVideo";
+import MainVideo from "@/components/MainVideo.jsx";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getVideo } from "@/hooks/videos";

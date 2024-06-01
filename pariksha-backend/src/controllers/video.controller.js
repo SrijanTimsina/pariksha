@@ -39,4 +39,18 @@ const createVideo = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, createdVideo, "Video Created"));
 });
 
-export { createVideo };
+const getVideo = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+
+  const video = await Video.findById(videoId);
+
+  if (!video) {
+    throw new ApiError(404, "Video not found.");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, video, "Video fetched successfully."));
+});
+
+export { createVideo, getVideo };

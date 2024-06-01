@@ -1,9 +1,10 @@
 import { Router } from "express";
 
-import { createVideo } from "../controllers/video.controller.js";
+import { createVideo, getVideo } from "../controllers/video.controller.js";
 
 const router = Router();
 
 router.route("/create").post(createVideo);
+router.route("/getVideo/:videoId").get(getVideo);
 
 export default router;

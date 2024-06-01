@@ -36,4 +36,34 @@ const createSubject = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, createdSubject, "Subject Created"));
 });
 
-export { createSubject };
+const getSubjectInfo = asyncHandler(async (req, res) => {
+  const { courseTitle, subjectTitle } = req.params;
+
+  const course = await Course.findOne({ link: courseTitle })
+    .populate({
+      path: "subjects",
+    })
+    .select("subjects");
+  if (!course) {
+    throw new ApiError(404, "Course not found.");
+  }
+
+  const subjectInfo = course.subjects.find(
+    (subject) => subject.title === subjectTitle
+  );
+
+  const subject = await Subject.findById(subjectInfo._id).populate({
+    path: "sections",
+    populate: {
+      path: "videos",
+    },
+  });
+  if (!subject) {
+    throw new ApiError(404, "Subject not found.");
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, subject, "Subject fetched successfully."));
+});
+
+export { createSubject, getSubjectInfo };

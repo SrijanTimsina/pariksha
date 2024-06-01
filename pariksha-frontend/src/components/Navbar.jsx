@@ -10,7 +10,7 @@ import {
 
 export default function Navbar() {
 	return (
-		<div className="bg-primary navContainer px-10 py-4 flex justify-between items-center z-[9999] fixed w-full">
+		<div className="bg-primary navContainer px-10 py-4 flex justify-between items-center z-[9999] fixed w-full h-20">
 			<div className="logoContainer">
 				<Image src="" alt="PARIKSHA" className="w-40 text-white" />
 			</div>

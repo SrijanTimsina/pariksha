@@ -19,3 +19,11 @@ code {
 	width: 100vw;
 	overflow-x: hidden;
 }
+
+.content-container {
+	width: 100%;
+	max-width: 1340px;
+	margin: auto;
+	padding-left: 20px;
+	padding-right: 20px;
+}

@@ -8,9 +8,15 @@ import { Button } from "@chakra-ui/react";
 
 import { FaArrowLeft } from "react-icons/fa6";
 import { RxCross1 } from "react-icons/rx";
-import Accordian from "../Accordian/Accordian";
+import Accordian from "../CourseDrawer/CourseDrawer";
+import SubjectDrawer from "../SubjectDrawer/SubjectDrawer";
 
-export default function VideoDrawer() {
+export default function Drawer({
+	subjectData,
+	courseTitle,
+	subjectTitle,
+	videoId,
+}) {
 	const [drawerOpen, setDrawerOpen] = useState(false);
 
 	return (
@@ -41,7 +47,14 @@ export default function VideoDrawer() {
 						<RxCross1 />
 					</button>
 				</div>
-				<Accordian />
+				{subjectData && (
+					<SubjectDrawer
+						subjectData={subjectData}
+						courseTitle={courseTitle}
+						subjectTitle={subjectTitle}
+						videoId={videoId}
+					/>
+				)}
 			</div>
 		</div>
 	);

@@ -22,20 +22,24 @@ const generateAccessAndRefreshTokens = async (userId) => {
 };
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { username, email, fullName, password } = req.body;
+  const { contactNumber, email, fullName, password } = req.body;
 
   if (
-    [username, email, fullName, password].some((field) => field?.trim() === "")
+    [contactNumber, email, fullName, password].some(
+      (field) => field?.trim() === ""
+    )
   ) {
     throw new ApiError(400, "All fields are required.");
   }
-  const existedUser = await User.findOne({ $or: [{ username }, { email }] });
+  const existedUser = await User.findOne({
+    $or: [{ contactNumber }, { email }],
+  });
   if (existedUser) {
     throw new ApiError(409, "User is already registered.");
   }
 
   const user = await User.create({
-    username: username.toLowerCase(),
+    contactNumber,
     email,
     fullName,
     password,
@@ -53,13 +57,17 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const loginUser = asyncHandler(async (req, res) => {
-  const { email, username, password } = req.body;
+  const { identifier, password } = req.body;
 
-  if (!username && !email) {
-    throw new ApiError(400, "Username or email is required");
+  if (!identifier) {
+    throw new ApiError(400, "ContactNumber or email is required");
   }
 
-  const user = await User.findOne({ $or: [{ username }, { email }] });
+  const user = await User.findOne(
+    identifier.includes("@")
+      ? { email: identifier }
+      : { contactNumber: identifier }
+  );
 
   if (!user) {
     throw new ApiError(404, "User is not registered");
@@ -81,7 +89,8 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: true,
+    secure: false,
+    sameSite: "none",
   };
 
   return res

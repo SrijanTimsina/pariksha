@@ -4,7 +4,8 @@ import jwt from "jsonwebtoken";
 
 const userSchema = new Schema(
   {
-    contact_number: {
+    fullName: { type: String, required: true, index: true },
+    contactNumber: {
       type: Number,
       required: true,
       unique: true,
@@ -19,9 +20,20 @@ const userSchema = new Schema(
       lowercase: true,
       trim: true,
     },
-    fullName: { type: String, required: true, index: true },
     password: { type: String, required: [true, "Password is required."] },
     watchHistory: [{ type: Schema.Types.ObjectId, ref: "Video" }],
+    enrolledCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
+    subjectCurrentWatching: [
+      {
+        subject: { type: Schema.Types.ObjectId, ref: "Subject" },
+        video: { type: Schema.Types.ObjectId, ref: "Video" },
+      },
+    ],
+    userType: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
     refreshToken: { type: String },
   },
   { timestamps: true }

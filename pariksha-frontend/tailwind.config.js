@@ -16,6 +16,10 @@ module.exports = {
 				"gray-semiDark": "rgb(173,181,189)",
 				"gray-dark": "rgba(217, 217, 217, 1)",
 			},
+			boxShadow: {
+				"custom-light": "0 2px 4px rgba(0, 0, 0, 0.1)",
+				"custom-dark": "0 0 5px 2px rgba(0, 0, 0, 0.9)",
+			},
 		},
 	},
 	plugins: [],

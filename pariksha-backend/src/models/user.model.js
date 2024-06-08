@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { type } from "os";
 
 const userSchema = new Schema(
   {
@@ -21,6 +22,13 @@ const userSchema = new Schema(
       trim: true,
     },
     password: { type: String, required: [true, "Password is required."] },
+    studyLocation: {
+      type: String,
+      required: true,
+      enum: ["Kathmandu", "Chitwan", "Rupandehi", "Eastern_Region", "Others"],
+    },
+    abroadPlans: { type: Boolean, required: true },
+    priority: { type: String, enum: ["CSIT", "BBA", "Others"], required: true },
     watchHistory: [{ type: Schema.Types.ObjectId, ref: "Video" }],
     enrolledCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
     subjectCurrentWatching: [
@@ -31,8 +39,8 @@ const userSchema = new Schema(
     ],
     userType: {
       type: String,
-      enum: ["user", "admin"],
-      default: "user",
+      enum: ["User", "Admin"],
+      default: "User",
     },
     refreshToken: { type: String },
   },

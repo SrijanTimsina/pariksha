@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   registerUser,
+  checkUserExists,
   loginUser,
   logoutUser,
   refreshAccessToken,
@@ -27,7 +28,8 @@ const router = Router();
 //   ]),
 //   registerUser
 // );
-router.route("/register").post(registerUser);
+router.route("/register").post(registerUser, loginUser);
+router.route("/check").post(checkUserExists);
 router.route("/login").post(loginUser);
 
 //secured routes

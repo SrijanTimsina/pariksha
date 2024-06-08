@@ -27,7 +27,6 @@ const createCourse = asyncHandler(async (req, res) => {
 });
 
 const getAllCourses = asyncHandler(async (req, res) => {
-  console.log("cookies", req.cookies);
   const courses = await Course.find({});
   return res
     .status(200)

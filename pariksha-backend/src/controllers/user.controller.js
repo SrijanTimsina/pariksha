@@ -21,8 +21,16 @@ const generateAccessAndRefreshTokens = async (userId) => {
   }
 };
 
-const registerUser = asyncHandler(async (req, res) => {
-  const { contactNumber, email, fullName, password } = req.body;
+const registerUser = asyncHandler(async (req, res, next) => {
+  const {
+    contactNumber,
+    email,
+    fullName,
+    password,
+    studyLocation,
+    abroadPlans,
+    priority,
+  } = req.body;
 
   if (
     [contactNumber, email, fullName, password].some(
@@ -39,10 +47,13 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
-    contactNumber,
+    contactNumber: contactNumber,
     email,
     fullName,
     password,
+    studyLocation,
+    abroadPlans,
+    priority,
   });
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"
@@ -51,15 +62,52 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Something went wrong while registering the user");
   }
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, createdUser, "User Created"));
+  next();
+});
+
+const checkUserExists = asyncHandler(async (req, res) => {
+  const { email, contactNumber } = req.body;
+
+  if ([contactNumber, email].some((field) => field?.trim() === "")) {
+    throw new ApiError(400, "ContactNumber and email is required");
+  }
+
+  try {
+    const existedPhone = await User.findOne({
+      contactNumber: contactNumber,
+    });
+    if (existedPhone) {
+      throw new ApiError(409, "Contact number already used.", [
+        {
+          contactNumber: "Phone number already used.",
+        },
+      ]);
+    }
+
+    const existedEmail = await User.findOne({
+      email: email,
+    });
+
+    if (existedEmail) {
+      throw new ApiError(409, "Email already used.", [
+        { email: "Email already used." },
+      ]);
+    }
+  } catch (error) {
+    return res.status(error.statusCode).json(error);
+  }
+
+  return res.status(200).json(new ApiResponse(200, {}, "create user."));
 });
 
 const loginUser = asyncHandler(async (req, res) => {
-  const { identifier, password } = req.body;
+  let { identifier, password, email, contactNumber } = req.body;
 
   if (!identifier) {
+    identifier = email || contactNumber;
+  }
+
+  if (!identifier && !email && !contactNumber) {
     throw new ApiError(400, "ContactNumber or email is required");
   }
 
@@ -90,7 +138,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: false,
-    sameSite: "none",
+    maxAge: 3600000,
   };
 
   return res
@@ -273,6 +321,7 @@ const getUserWatchHistory = asyncHandler(async (req, res) => {
 
 export {
   registerUser,
+  checkUserExists,
   loginUser,
   logoutUser,
   refreshAccessToken,

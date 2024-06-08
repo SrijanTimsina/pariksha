@@ -12,6 +12,12 @@ const courseSchema = new Schema(
         ref: "Subject",
       },
     ],
+    questionSets: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "QuestionSet",
+      },
+    ],
     description: {
       type: String,
     },

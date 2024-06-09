@@ -8,7 +8,7 @@ import {
 
 const router = Router();
 
-router.route("/create").post(createQuestionSet);
+router.route("/create/:type").post(createQuestionSet);
 router.route("/getAllQuestionSets").get(getAllQuestionSets);
 router.route("/getQuestionSetData/:link").get(getQuestionSet);
 

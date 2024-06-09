@@ -7,19 +7,26 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 import { createQuestionSubject } from "./questionSubject.controller.js";
+import { ObjectId } from "mongodb";
 
 const createQuestionSet = asyncHandler(async (req, res) => {
-  const { title, description, id, subjects, setType, courseId } = req.body;
+  const { type } = req.params;
+  const courseId = new ObjectId("66601a157314e240c5000996");
+  const { title, description, id, number, subjects } = req.body;
 
-  if ([title, id].some((field) => field?.trim() === "")) {
+  if ([title, id, type].some((field) => field?.trim() === "")) {
     throw new ApiError(400, "All fields are required.");
   }
 
+  if (type !== "past" && type !== "mock") {
+    throw new ApiError(400, "Type must be either past or mock");
+  }
   const questionSet = await QuestionSet.create({
     title,
     link: id,
     description,
-    setType,
+    number,
+    setType: type,
   });
   await Course.findByIdAndUpdate(
     courseId,

@@ -21,6 +21,11 @@ const questionSchema = new Schema(
       ref: "QuestionSubject",
       required: true,
     },
+    subjectId: {
+      type: Schema.Types.ObjectId,
+      ref: "Subject",
+      required: true,
+    },
   },
   { timestamps: true }
 );

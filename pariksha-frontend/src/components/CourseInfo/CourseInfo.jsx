@@ -19,7 +19,7 @@ function CourseInfo({ link }) {
     queryKey: ["course"],
     queryFn: () => getCourseData(link),
   });
-  console.log(courseData);
+
   return (
     <div>
       {courseData && (
@@ -45,10 +45,20 @@ function CourseInfo({ link }) {
             </div>
           </div>
           <div className="content-container">
-            <div className="w-full max-w-[800px]">
-              <h1 className="mb-4 mt-10 text-2xl font-semibold">
-                Course Content
-              </h1>
+            <div className="mt-10 bg-white p-6 shadow-lg">
+              <h1 className="mb-4 text-xl font-semibold">Past Questions</h1>
+
+              {courseData.questionSets.map((questionSet, index) => (
+                <Link
+                  href={`/courses/${link}/tests/${questionSet.link}`}
+                  key={index}
+                >
+                  <PrimaryButton text={questionSet.number} className="w-max" />
+                </Link>
+              ))}
+            </div>
+            <div className="mt-10 w-full max-w-[800px]">
+              <h1 className="mb-4 text-2xl font-semibold">Course Content</h1>
               <CourseDrawer subjects={courseData.subjects} courseTitle={link} />
             </div>
           </div>

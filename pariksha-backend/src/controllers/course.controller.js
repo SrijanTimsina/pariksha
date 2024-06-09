@@ -4,6 +4,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { Course } from "../models/course.model.js";
 
 import { ApiResponse } from "../utils/ApiResponse.js";
+import path from "path";
 
 const createCourse = asyncHandler(async (req, res) => {
   const { title, description } = req.body;
@@ -36,15 +37,20 @@ const getAllCourses = asyncHandler(async (req, res) => {
 const getCourseData = asyncHandler(async (req, res) => {
   const { link } = req.params;
 
-  const course = await Course.findOne({ link: link }).populate({
-    path: "subjects",
-    populate: {
-      path: "sections",
+  const course = await Course.findOne({ link: link }).populate([
+    {
+      path: "subjects",
       populate: {
-        path: "videos",
+        path: "sections",
+        populate: {
+          path: "videos",
+        },
       },
     },
-  });
+    {
+      path: "questionSets",
+    },
+  ]);
 
   return res
     .status(200)

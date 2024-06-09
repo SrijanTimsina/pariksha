@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { set } from "react-hook-form";
+
 import ReactPlayer from "react-player";
 
 export default function Video({ url }) {
@@ -9,6 +9,7 @@ export default function Video({ url }) {
   const [playing, setPlaying] = React.useState(false);
   const [adPlaying, setAdPlaying] = React.useState(false);
   const [adPlayed, setAdPlayed] = React.useState(false);
+
   function playVideo() {
     setPlaying(true);
   }

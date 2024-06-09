@@ -10,6 +10,10 @@ const questionSetSchema = new Schema(
       type: String,
       required: true,
     },
+    number: {
+      type: String,
+      required: true,
+    },
     setType: { type: String, enum: ["past", "mock"], required: true },
     subjects: [
       {

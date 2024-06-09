@@ -38,7 +38,7 @@ export default function CourseDrawer({ subjects, courseTitle }) {
                   <AccordionPanel py={0} pb={8}>
                     {section.videos.map((video, index) => (
                       <Link
-                        href={`/courses/${courseTitle}/${subject.title}/${video._id}`}
+                        href={`/courses/${courseTitle}/videos/${subject.title}/${video._id}`}
                         key={index}
                       >
                         <div className="mx-6 flex cursor-pointer items-center justify-between gap-4 p-2 hover:bg-[#eeeeee]">

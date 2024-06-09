@@ -29,7 +29,6 @@ const createVideo = asyncHandler(async (req, res) => {
     { new: true }
   );
 
-  console.log(updatedSection);
   if (!updatedSection) {
     throw new ApiError(500, "Something went wrong while updating the section.");
   }

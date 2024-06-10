@@ -5,6 +5,7 @@ import { getTestInfo } from "@/hooks/tests";
 import { useQuery } from "@tanstack/react-query";
 import PrimaryButton from "@/components/PrimaryButton";
 import Countdown from "react-countdown";
+import TestQuestions from "@/components/TestQuestions";
 
 export default function page({ params }) {
   const testName = params.testname;
@@ -21,25 +22,25 @@ export default function page({ params }) {
     queryFn: () => getTestInfo(testName),
   });
 
-  console.log(testData);
-
   return (
     <div>
       {testData && (
-        <div className="mt-10 flex w-full items-center justify-center px-4">
+        <div className="mt-10 px-4">
           {testStatus === "not_started" && (
-            <div className="border border-black p-8">
-              <p className="text-lg font-semibold"> {testData.title}</p>
-              <p>Questions: 100</p>
-              <p>Marks: 100</p>
-              <p>Time: 2 Hours</p>
-              <PrimaryButton
-                text={"Start Test"}
-                className={"mt-4"}
-                onClick={() => {
-                  setTestStatus("running");
-                }}
-              />
+            <div className="flex w-full items-center justify-center">
+              <div className="border border-black p-8">
+                <p className="text-lg font-semibold"> {testData.title}</p>
+                <p>Questions: 100</p>
+                <p>Marks: 100</p>
+                <p>Time: 2 Hours</p>
+                <PrimaryButton
+                  text={"Start Test"}
+                  className={"mt-4"}
+                  onClick={() => {
+                    setTestStatus("running");
+                  }}
+                />
+              </div>
             </div>
           )}
           {testStatus === "running" && (
@@ -53,6 +54,7 @@ export default function page({ params }) {
                   </p>
                 )} // Render prop to display remaining time
               />
+              <TestQuestions subjects={testData.subjects} />
             </div>
           )}
         </div>

@@ -1,17 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { getTestInfo } from "@/hooks/tests";
 import { useQuery } from "@tanstack/react-query";
-import PrimaryButton from "@/components/PrimaryButton";
-import Countdown from "react-countdown";
+
 import TestQuestions from "@/components/TestQuestions";
+import TestDetails from "@/components/TestDetails";
+
+import TestNav from "@/components/TestNav";
 
 export default function page({ params }) {
   const testName = params.testname;
   const [testStatus, setTestStatus] = useState("not_started");
-  const [countdown, setCountdown] = useState(0); // State to hold the countdown time
-  const [isRunning, setIsRunning] = useState(false);
+  const [countdownDate, setCountdownDate] = useState(0);
+
+  const [userSelectedAnswers, setUserSelectedAnswers] = useState({});
 
   const {
     data: testData,
@@ -25,36 +28,31 @@ export default function page({ params }) {
   return (
     <div>
       {testData && (
-        <div className="mt-10 px-4">
+        <div className=" ">
           {testStatus === "not_started" && (
-            <div className="flex w-full items-center justify-center">
-              <div className="border border-black p-8">
-                <p className="text-lg font-semibold"> {testData.title}</p>
-                <p>Questions: 100</p>
-                <p>Marks: 100</p>
-                <p>Time: 2 Hours</p>
-                <PrimaryButton
-                  text={"Start Test"}
-                  className={"mt-4"}
-                  onClick={() => {
-                    setTestStatus("running");
-                  }}
-                />
-              </div>
-            </div>
+            <TestDetails
+              title={testData?.title}
+              start={() => {
+                setTestStatus("running");
+                setCountdownDate(Date.now() + 7200 * 1000);
+              }}
+              questionsCount={100}
+              totalMarks={100}
+              time={"2 Hours"}
+            />
           )}
           {testStatus === "running" && (
-            <div>
-              <Countdown
-                date={Date.now() + 7200 * 1000}
-                // onComplete={onTimerEnd}
-                renderer={({ hours, minutes, seconds }) => (
-                  <p>
-                    {hours}:{minutes}:{seconds}
-                  </p>
-                )} // Render prop to display remaining time
+            <div className="">
+              <TestNav
+                count={Object.keys(userSelectedAnswers).length}
+                title={testData?.title}
+                countdownDate={countdownDate}
               />
-              <TestQuestions subjects={testData.subjects} />
+
+              <TestQuestions
+                subjects={testData.subjects}
+                setUserSelectedAnswers={setUserSelectedAnswers}
+              />
             </div>
           )}
         </div>

@@ -1,12 +1,13 @@
 "use client";
-import { useState } from "react";
-import parse from "html-react-parser";
+import { useEffect, useState } from "react";
+
 import { InlineMath } from "react-katex";
 import "katex/dist/katex.min.css";
 import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
-import { FaCheck } from "react-icons/fa";
 
-const TestQuestions = ({ subjects }) => {
+import QuestionSelector from "@/components/QuestionSelector";
+
+const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
   const [currentSubjectIndex, setCurrentSubjectIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
@@ -80,19 +81,25 @@ const TestQuestions = ({ subjects }) => {
     });
   };
   const selectAnswer = (questionId, answerId) => {
-    console.log(userAnswers[questionId]);
     if (userAnswers[questionId] == answerId) {
       console.log("Already selected");
+    } else {
+      setUserAnswers((prev) => ({
+        ...prev,
+        [questionId]: answerId,
+      }));
     }
-    setUserAnswers((prev) => ({
-      ...prev,
-      [questionId]: answerId,
-    }));
   };
 
+  useEffect(() => {
+    setUserSelectedAnswers(userAnswers);
+  }, [userAnswers]);
+
   return (
-    <div className="content-container">
-      <h2>{currentSubject.name}</h2>
+    <div className="content-container flex flex-col items-center gap-4">
+      <h2 className="mb-4 mt-12 text-xl font-semibold">
+        {currentSubject.name}
+      </h2>
       <div>
         {currentQuestions.map((question, idx) => (
           <div key={idx}>
@@ -136,30 +143,12 @@ const TestQuestions = ({ subjects }) => {
           Next
         </button>
       </div>
-      <div className="mt-4 flex w-full max-w-[640px] flex-col gap-8 border border-gray-300 px-8 py-8">
-        {subjects.map((subject, index) => (
-          <div className="w-full" key={index}>
-            <p className="mb-4 font-semibold">{subject.name}</p>
-            <div className="flex flex-wrap gap-2">
-              {subject.questions.map((question, idx) => (
-                <button
-                  key={idx}
-                  onClick={() =>
-                    jumpToQuestion(idx + 1 + index * questionSelectorCount)
-                  }
-                  className="h-10 w-14 rounded bg-gray-100 px-2 py-1 text-gray-800 hover:bg-gray-200"
-                >
-                  {userAnswers.hasOwnProperty(question._id) ? (
-                    <FaCheck className="w-full" />
-                  ) : (
-                    idx + 1 + index * questionSelectorCount
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
+      <QuestionSelector
+        subjects={subjects}
+        questionSelectorCount={questionSelectorCount}
+        jumpToQuestion={jumpToQuestion}
+        userAnswers={userAnswers}
+      />
     </div>
   );
 };

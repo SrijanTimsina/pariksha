@@ -5,7 +5,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
@@ -37,11 +36,12 @@ export default function QuestionSelector({
                     {subject.questions.map((question, idx) => (
                       <button
                         key={idx}
-                        onClick={() =>
+                        onClick={() => {
                           jumpToQuestion(
                             idx + 1 + index * questionSelectorCount
-                          )
-                        }
+                          );
+                          onClose();
+                        }}
                         className="h-10 w-14 rounded bg-gray-100 px-2 py-1 text-gray-800 hover:bg-gray-200"
                       >
                         {userAnswers.hasOwnProperty(question._id) ? (

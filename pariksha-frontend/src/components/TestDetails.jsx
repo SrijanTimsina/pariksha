@@ -8,7 +8,7 @@ export default function TestDetails({
   time,
 }) {
   return (
-    <div className="flex w-full items-center justify-center">
+    <div className="mt-4 flex w-full items-center justify-center">
       <div className="border border-black p-8">
         <p className="text-lg font-semibold"> {title}</p>
         <p>Questions: {questionsCount}</p>

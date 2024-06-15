@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { getTestInfo } from "@/hooks/tests";
-import { useQuery } from "@tanstack/react-query";
+import { getTestInfo, submitTestAnswers } from "@/hooks/tests";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import TestQuestions from "@/components/TestQuestions";
 import TestDetails from "@/components/TestDetails";
+import TestSummary from "@/components/TestSummary";
 
 import TestNav from "@/components/TestNav";
 
@@ -15,6 +16,7 @@ export default function page({ params }) {
   const [countdownDate, setCountdownDate] = useState(0);
 
   const [userSelectedAnswers, setUserSelectedAnswers] = useState({});
+  const [testSummary, setTestSummary] = useState({});
 
   const {
     data: testData,
@@ -24,6 +26,23 @@ export default function page({ params }) {
     queryKey: ["test", testName],
     queryFn: () => getTestInfo(testName),
   });
+
+  const {
+    mutate: submitAnswer,
+    isPending: isSubmitting,
+    isError: isSubmitError,
+  } = useMutation({
+    mutationFn: () =>
+      submitTestAnswers(testData?._id, { answers: userSelectedAnswers }),
+    onSuccess: (data) => {
+      setTestStatus("completed");
+      setTestSummary(data);
+    },
+  });
+
+  const handleSubmit = () => {
+    submitAnswer();
+  };
 
   return (
     <div>
@@ -47,6 +66,7 @@ export default function page({ params }) {
                 count={Object.keys(userSelectedAnswers).length}
                 title={testData?.title}
                 countdownDate={countdownDate}
+                handleSubmit={handleSubmit}
               />
 
               <TestQuestions
@@ -54,6 +74,9 @@ export default function page({ params }) {
                 setUserSelectedAnswers={setUserSelectedAnswers}
               />
             </div>
+          )}
+          {testStatus === "completed" && (
+            <TestSummary title={testData?.title} data={testSummary} />
           )}
         </div>
       )}

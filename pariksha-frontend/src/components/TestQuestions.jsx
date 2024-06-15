@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 
 import { InlineMath } from "react-katex";
 import "katex/dist/katex.min.css";
-import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
+import {
+  Radio,
+  RadioGroup,
+  Stack,
+  Button,
+  ButtonGroup,
+} from "@chakra-ui/react";
 
 import QuestionSelector from "@/components/QuestionSelector";
 
@@ -126,22 +132,27 @@ const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
           </div>
         ))}
       </div>
-      <div className="mt-8 flex gap-8">
-        <button
-          onClick={handleBack}
-          disabled={currentSubjectIndex === 0 && currentPage === 0}
-        >
-          Back
-        </button>
-        <button
-          onClick={handleNext}
-          disabled={
-            currentSubjectIndex === subjects.length - 1 &&
-            currentPage === totalPages - 1
-          }
-        >
-          Next
-        </button>
+      <div className="mb-4 mt-8">
+        <ButtonGroup spacing={4}>
+          <Button
+            onClick={handleBack}
+            isDisabled={currentSubjectIndex === 0 && currentPage === 0}
+            colorScheme={"blackAlpha"}
+            paddingX={8}
+          >
+            Back
+          </Button>
+          <Button
+            onClick={handleNext}
+            isDisabled={
+              currentSubjectIndex === subjects.length - 1 &&
+              currentPage === totalPages - 1
+            }
+            paddingX={8}
+          >
+            Next
+          </Button>
+        </ButtonGroup>
       </div>
       <QuestionSelector
         subjects={subjects}

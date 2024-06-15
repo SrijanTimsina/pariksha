@@ -1,7 +1,7 @@
 import Countdown from "react-countdown";
 import PrimaryButton from "@/components/PrimaryButton";
 
-export default function TestNav({ count, title, countdownDate }) {
+export default function TestNav({ count, title, countdownDate, handleSubmit }) {
   return (
     <div className="border-b-2 border-b-gray-200 bg-white">
       <div className="content-container flex w-full flex-col gap-8 py-4 sm:flex-row sm:items-center sm:justify-between">
@@ -20,7 +20,11 @@ export default function TestNav({ count, title, countdownDate }) {
           />
 
           <p>{count}/100</p>
-          <PrimaryButton text={"End Test"} className={"w-max"} />
+          <PrimaryButton
+            text={"End Test"}
+            className={"w-max"}
+            onClick={handleSubmit}
+          />
         </div>
       </div>
     </div>

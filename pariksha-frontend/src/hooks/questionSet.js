@@ -1,24 +1,15 @@
 "use client";
 
-import axios from "axios";
-import { API_URL } from "./constant.js";
+import axiosInstance from "./axiosInstance.js";
 
 export const getAllQuestionSets = async () => {
-  const { data } = await axios.get(
-    `${API_URL}/questionset/getAllQuestionSets`,
-    {
-      withCredentials: true,
-    }
-  );
+  const { data } = await axiosInstance.get(`/questionset/getAllQuestionSets`);
   return data;
 };
 
 export const getQuestionSetData = async (link) => {
-  const { data } = await axios.get(
-    `${API_URL}/questionset/getQuestionSetData/${link}`,
-    {
-      withCredentials: true,
-    }
+  const { data } = await axiosInstance.get(
+    `/questionset/getQuestionSetData/${link}`
   );
   return data;
 };

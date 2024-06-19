@@ -1,4 +1,5 @@
 import { QuestionSet } from "../models/questionset.model.js";
+import { QuestionScores } from "../models/questionscores.model.js";
 import { Course } from "../models/course.model.js";
 
 import { ApiError } from "../utils/ApiError.js";
@@ -86,4 +87,86 @@ const getQuestionSet = asyncHandler(async (req, res) => {
     );
 });
 
-export { createQuestionSet, getAllQuestionSets, getQuestionSet };
+const submitTestAnswers = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { answers } = req.body;
+
+  const questionSet = await QuestionSet.findById(id).populate({
+    path: "subjects",
+    populate: {
+      path: "questions",
+    },
+  });
+
+  if (!questionSet) {
+    throw new ApiError(404, "Question set not found.");
+  }
+  let userScore = 0;
+  let count = 0;
+
+  const userSummary = questionSet.subjects.map((subject) => {
+    let subjectScore = 0;
+    let subjectQuestionCount = 0;
+    const summary = subject.questions.map((question) => {
+      count++;
+      subjectQuestionCount++;
+      if (question.correctAnswer == answers[question._id]) {
+        userScore += 1;
+        subjectScore += 1;
+      }
+      return { question: question, userAnswer: answers[question._id] };
+    });
+    return {
+      subject: subject.name,
+      questions: summary,
+      subjectMarks: subjectScore,
+      subjectTotalMarks: subjectQuestionCount,
+    };
+  });
+
+  const updatedQuestionSet = await QuestionSet.findByIdAndUpdate(
+    id,
+    {
+      $inc: { submissionCount: 1 },
+      $set: {
+        avgScore:
+          (questionSet.avgScore * questionSet.submissionCount + userScore) /
+          (questionSet.submissionCount + 1),
+      },
+    },
+    { new: true }
+  );
+  const updatedQuestionScore = await QuestionScores.findOneAndUpdate(
+    { questionSetId: id },
+    { $push: { scores: { $each: [userScore], $sort: 1 } } },
+    { new: true }
+  );
+
+  const userRank = await updatedQuestionScore.findRank(userScore);
+
+  const percentile =
+    Math.round((userRank / updatedQuestionSet.submissionCount) * 100 * 100) /
+    100;
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        userMarks: userScore,
+        totalMarks: count,
+        userSummary: userSummary,
+        avgScore: parseFloat(updatedQuestionSet.avgScore.toFixed(2)),
+        percentile: percentile,
+        userRank: `${userRank} / ${updatedQuestionSet.submissionCount}`,
+      },
+      `Test results submitted successfully. Score: ' '`
+    )
+  );
+});
+
+export {
+  createQuestionSet,
+  getAllQuestionSets,
+  getQuestionSet,
+  submitTestAnswers,
+};

@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { QuestionScores } from "./questionscores.model.js";
 
 const questionSetSchema = new Schema(
   {
@@ -14,6 +15,14 @@ const questionSetSchema = new Schema(
       type: String,
       required: true,
     },
+    avgScore: {
+      type: Number,
+      default: 0,
+    },
+    submissionCount: {
+      type: Number,
+      default: 0,
+    },
     setType: { type: String, enum: ["past", "mock"], required: true },
     subjects: [
       {
@@ -27,5 +36,16 @@ const questionSetSchema = new Schema(
   },
   { timestamps: true }
 );
+
+questionSetSchema.post("save", async function (doc, next) {
+  try {
+    QuestionScores.create({
+      questionSetId: doc._id,
+    });
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 export const QuestionSet = mongoose.model("QuestionSet", questionSetSchema);

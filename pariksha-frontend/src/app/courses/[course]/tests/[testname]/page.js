@@ -75,7 +75,7 @@ export default function page({ params }) {
               />
             </div>
           )}
-          {testStatus === "completed" && (
+          {testSummary && testStatus === "completed" && (
             <TestSummary title={testData?.title} data={testSummary} />
           )}
         </div>

@@ -152,12 +152,12 @@ const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
           </Button>
         </ButtonGroup>
       </div>
-      {/* <QuestionSelector
+      <QuestionSelector
         subjects={subjects}
         questionSelectorCount={questionSelectorCount}
         jumpToQuestion={jumpToQuestion}
         userAnswers={userAnswers}
-      /> */}
+      />
       <Image
         src={"/up.jpg"}
         alt="up"

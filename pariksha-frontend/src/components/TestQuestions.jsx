@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 
-import { InlineMath } from "react-katex";
 import "katex/dist/katex.min.css";
 import {
   Radio,
@@ -10,6 +9,7 @@ import {
   Button,
   ButtonGroup,
 } from "@chakra-ui/react";
+import { renderMath } from "@/utils/renderMath";
 
 import QuestionSelector from "@/components/QuestionSelector";
 
@@ -77,15 +77,7 @@ const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
     startIdx,
     startIdx + questionsPerPage
   );
-  const renderMath = (text) => {
-    const regex = /<InlineMath>(.*?)<\/InlineMath>/g;
-    return text.split(regex).map((part, index) => {
-      if (index % 2 === 1) {
-        return <InlineMath key={index}>{part}</InlineMath>;
-      }
-      return part;
-    });
-  };
+
   const selectAnswer = (questionId, answerId) => {
     if (userAnswers[questionId] == answerId) {
       console.log("Already selected");

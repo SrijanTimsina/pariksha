@@ -9,6 +9,7 @@ import TestDetails from "@/components/TestDetails";
 import TestSummary from "@/components/TestSummary";
 
 import TestNav from "@/components/TestNav";
+import TestAnswersReview from "@/components/TestAnswersReview";
 
 export default function page({ params }) {
   const testName = params.testname;
@@ -35,7 +36,7 @@ export default function page({ params }) {
     mutationFn: () =>
       submitTestAnswers(testData?._id, { answers: userSelectedAnswers }),
     onSuccess: (data) => {
-      setTestStatus("completed");
+      setTestStatus("summary");
       setTestSummary(data);
     },
   });
@@ -75,8 +76,19 @@ export default function page({ params }) {
               />
             </div>
           )}
-          {testSummary && testStatus === "completed" && (
-            <TestSummary title={testData?.title} data={testSummary} />
+          {testSummary && testStatus === "summary" && (
+            <TestSummary
+              title={testData?.title}
+              data={testSummary}
+              review={() => setTestStatus("review")}
+            />
+          )}
+          {testSummary && testStatus === "review" && (
+            <TestAnswersReview
+              title={testData?.title}
+              data={testSummary}
+              setTestStatus={setTestStatus}
+            />
           )}
         </div>
       )}

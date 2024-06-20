@@ -145,8 +145,7 @@ const submitTestAnswers = asyncHandler(async (req, res) => {
   const userRank = await updatedQuestionScore.findRank(userScore);
 
   const percentile =
-    Math.round((userRank / updatedQuestionSet.submissionCount) * 100 * 100) /
-    100;
+    100 - (userRank * 100) / updatedQuestionSet.submissionCount;
 
   return res.status(200).json(
     new ApiResponse(
@@ -156,7 +155,7 @@ const submitTestAnswers = asyncHandler(async (req, res) => {
         totalMarks: count,
         userSummary: userSummary,
         avgScore: parseFloat(updatedQuestionSet.avgScore.toFixed(2)),
-        percentile: percentile,
+        percentile: parseFloat(percentile.toFixed(2)),
         userRank: `${userRank} / ${updatedQuestionSet.submissionCount}`,
       },
       `Test results submitted successfully. Score: ' '`

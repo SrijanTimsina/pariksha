@@ -12,6 +12,7 @@ import {
 import { renderMath } from "@/utils/renderMath";
 
 import QuestionSelector from "@/components/QuestionSelector";
+import Image from "next/image";
 
 const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
   const [currentSubjectIndex, setCurrentSubjectIndex] = useState(0);
@@ -94,10 +95,15 @@ const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
   }, [userAnswers]);
 
   return (
-    <div className="content-container flex flex-col items-center gap-4">
-      <h2 className="mb-4 mt-12 text-xl font-semibold">
-        {currentSubject.name}
-      </h2>
+    <div className="content-container flex flex-col items-center gap-4 pt-2">
+      <Image
+        src={"/up.jpg"}
+        alt="up"
+        width={1200}
+        height={200}
+        className="rounded-md"
+      />
+      <h2 className="mb-4 text-xl font-semibold">{currentSubject.name}</h2>
       <div>
         {currentQuestions.map((question, idx) => (
           <div key={idx}>
@@ -146,11 +152,18 @@ const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
           </Button>
         </ButtonGroup>
       </div>
-      <QuestionSelector
+      {/* <QuestionSelector
         subjects={subjects}
         questionSelectorCount={questionSelectorCount}
         jumpToQuestion={jumpToQuestion}
         userAnswers={userAnswers}
+      /> */}
+      <Image
+        src={"/up.jpg"}
+        alt="up"
+        width={1200}
+        height={200}
+        className="rounded-md"
       />
     </div>
   );

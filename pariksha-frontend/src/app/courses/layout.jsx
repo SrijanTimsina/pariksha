@@ -11,7 +11,7 @@ export default function Layout({ children }) {
       <div>
         <Navbar />
       </div>
-      <div className="pt-20">{children}</div>
+      <div className="pb-8 pt-20">{children}</div>
     </>
   );
 }

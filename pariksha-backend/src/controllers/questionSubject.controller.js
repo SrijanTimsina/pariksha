@@ -4,6 +4,7 @@ import { Question } from "../models/question.model.js";
 import { Answer } from "../models/question.model.js";
 
 import { ObjectId } from "mongodb";
+import { ShuffleArray } from "../utils/ShuffleArray.js";
 
 const subjects = {
   Maths: new ObjectId("666408bb3c23ffa9cfa9bf46"),
@@ -33,9 +34,11 @@ const createQuestionSubject = async ({ subject }) => {
         })
       );
 
+      const shuffledAnswers = ShuffleArray(answersArray);
+
       const createdQuestion = await Question.create({
         questionText: question.text,
-        answers: answersArray,
+        answers: shuffledAnswers,
         correctAnswer: answersArray[0]["_id"],
         questionSubject: createdQuestionSubject._id,
         subjectId: subjectId,

@@ -1,10 +1,12 @@
 import React from "react";
 import { renderMath } from "@/utils/renderMath";
+import Image from "next/image";
+import rightIcon from "/public/rightIcon.svg";
+import wrongIcon from "/public/wrongIcon.svg";
 
-export default function ReviewQuestionAnswer({ question, count }) {
-  console.log(question);
+export default function ReviewQuestionAnswer({ question, count, userAnswer }) {
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className="flex w-full max-w-[450px] flex-col justify-between gap-4">
       <div className="flex gap-6">
         <p className="text-md mt-2 font-bold">{count}</p>
         <p className="leading-10">{renderMath(question.questionText)}</p>
@@ -13,9 +15,16 @@ export default function ReviewQuestionAnswer({ question, count }) {
         {question.answers.map((answer, idx) => (
           <p
             key={idx}
-            className={`${question.correctAnswer === answer._id ? "bg-green-100" : ""} px-8 py-4`}
+            className={`flex justify-between border-2 border-solid border-gray-200 px-8 py-4 ${question.correctAnswer === answer._id ? (question.correctAnswer === userAnswer ? "border-green-500 bg-green-50" : "border-gray-200 bg-gray-100") : ""} ${userAnswer === answer._id && userAnswer !== question.correctAnswer && "border-red-300 bg-red-50"} `}
           >
             {renderMath(answer.text)}
+            {question.correctAnswer === answer._id && (
+              <Image src={rightIcon} alt="correct" width={24} height={24} />
+            )}
+            {userAnswer === answer._id &&
+              userAnswer !== question.correctAnswer && (
+                <Image src={wrongIcon} alt="wrong" width={24} height={24} />
+              )}
           </p>
         ))}
       </div>

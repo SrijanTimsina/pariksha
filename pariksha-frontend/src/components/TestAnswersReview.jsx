@@ -9,7 +9,7 @@ export default function TestAnswersReview({ title, setTestStatus, data }) {
   const [displaySubject, setDisplaySubject] = useState(
     subjectsSummary[subjectDisplayIndex]
   );
-  console.log(displaySubject);
+
   useEffect(() => {
     setDisplaySubject(subjectsSummary[subjectDisplayIndex]);
   }, [subjectDisplayIndex]);
@@ -56,18 +56,20 @@ export default function TestAnswersReview({ title, setTestStatus, data }) {
         </button>
       </div>
 
-      <div className="mt-6 flex flex-col items-center justify-center">
+      <div className="mt-6 flex flex-col">
         <div className="mt-4 flex flex-col items-center gap-1">
           <p className="text-xl font-semibold"> {displaySubject.subject}</p>
           <p>Your Marks : {displaySubject.subjectMarks}</p>
           <p>Total Marks : {displaySubject.subjectTotalMarks}</p>
         </div>
-        <div className="mt-20 flex w-full flex-col gap-12">
+
+        <div className="mt-20 flex w-full flex-wrap justify-center gap-12">
           {displaySubject.questions.map((item, index) => (
             <ReviewQuestionAnswer
               question={item.question}
               key={index}
               count={index + 1}
+              userAnswer={item.userAnswer}
             />
           ))}
         </div>

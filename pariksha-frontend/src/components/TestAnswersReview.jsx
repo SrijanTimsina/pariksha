@@ -19,7 +19,7 @@ export default function TestAnswersReview({ title, setTestStatus, data }) {
       <PrimaryButton
         text={"Go Back"}
         onClick={() => setTestStatus("summary")}
-        className={"w-max rounded-xl px-20 py-3"}
+        className={"w-max rounded-xl px-24 py-3"}
       />
       <p className="mt-8 text-2xl font-semibold">{title}</p>
       <div className="mt-8 flex w-full items-center justify-between">
@@ -63,7 +63,7 @@ export default function TestAnswersReview({ title, setTestStatus, data }) {
           <p>Total Marks : {displaySubject.subjectTotalMarks}</p>
         </div>
 
-        <div className="mt-20 flex w-full flex-wrap justify-center gap-12">
+        <div className="mx-auto mt-20 grid grid-cols-2 justify-items-center gap-12 max-[1100px]:grid-cols-1">
           {displaySubject.questions.map((item, index) => (
             <ReviewQuestionAnswer
               question={item.question}

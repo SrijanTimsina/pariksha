@@ -14,7 +14,7 @@ export default function Layout({ children }) {
           <Image src="/01.png" width={200} height={100} alt="Pariksha" />
         </Link>
       </div>
-      <div>{children}</div>
+      <div className="mt-8">{children}</div>
     </div>
   );
 }

@@ -7,8 +7,8 @@ import Navbar from "@/components/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Pariksha",
-  description: "Pariksha app",
+  title: "FREE CSIT ENTRANCE PREPARATION - PARIKSHA",
+  description: "Join Pariksha to get free CSIT entrance preparation.",
 };
 
 export default function RootLayout({ children }) {
@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <div>{children}</div>
+          <div className="pb-8">{children}</div>
         </Providers>
       </body>
     </html>

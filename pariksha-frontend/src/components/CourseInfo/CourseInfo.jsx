@@ -3,7 +3,6 @@
 import { getCourseData } from "@/hooks/courses";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { Button, ButtonGroup } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
 import PrimaryButton from "../PrimaryButton";
@@ -16,8 +15,8 @@ function CourseInfo({ link }) {
     isPending,
     isError,
   } = useQuery({
-    queryKey: ["course"],
-    queryFn: () => getCourseData(link),
+    queryKey: ["csit-entrance"],
+    queryFn: () => getCourseData(),
   });
 
   return (
@@ -49,10 +48,7 @@ function CourseInfo({ link }) {
               <h1 className="mb-4 text-xl font-semibold">Past Questions</h1>
 
               {courseData.questionSets.map((questionSet, index) => (
-                <Link
-                  href={`/courses/${link}/tests/${questionSet.link}`}
-                  key={index}
-                >
+                <Link href={`/${link}/tests/${questionSet.link}`} key={index}>
                   <PrimaryButton text={questionSet.number} className="w-max" />
                 </Link>
               ))}

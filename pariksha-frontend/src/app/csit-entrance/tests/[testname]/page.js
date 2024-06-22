@@ -10,8 +10,9 @@ import TestSummary from "@/components/TestSummary";
 
 import TestNav from "@/components/TestNav";
 import TestAnswersReview from "@/components/TestAnswersReview";
+import withAuth from "@/utils/withAuth";
 
-export default function page({ params }) {
+function page({ params }) {
   const testName = params.testname;
   const [testStatus, setTestStatus] = useState("not_started");
   const [countdownDate, setCountdownDate] = useState(0);
@@ -95,3 +96,5 @@ export default function page({ params }) {
     </div>
   );
 }
+
+export default withAuth(page);

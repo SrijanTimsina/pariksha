@@ -10,9 +10,12 @@ export const fetchCourses = async () => {
   return data;
 };
 
-export const getCourseData = async (link) => {
-  const { data } = await axios.get(`${API_URL}/course/getCourseData/${link}`, {
-    withCredentials: true,
-  });
+export const getCourseData = async () => {
+  const { data } = await axios.get(
+    `${API_URL}/course/getCourseData/csit-entrance`,
+    {
+      withCredentials: true,
+    }
+  );
   return data.data;
 };

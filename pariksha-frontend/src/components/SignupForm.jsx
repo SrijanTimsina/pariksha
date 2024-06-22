@@ -33,7 +33,7 @@ const SignupForm = () => {
   const [loginDetailsFilled, setLoginDetailsFilled] = useState(false);
   const [loginDetails, setLoginDetails] = useState({});
   const [studyLocation, setStudyLocation] = useState(null);
-  const [abroadPlans, setAbroadPlans] = useState(null);
+  const [abroadPlans, setAbroadPlans] = useState();
   const [priority, setPriority] = useState(null);
 
   const {
@@ -60,9 +60,7 @@ const SignupForm = () => {
     }
   }, [studyLocation]);
   useEffect(() => {
-    if (abroadPlans) {
-      setPersonalDetailsValue("abroadPlans", abroadPlans);
-    }
+    setPersonalDetailsValue("abroadPlans", abroadPlans);
   }, [abroadPlans]);
   useEffect(() => {
     if (priority) {

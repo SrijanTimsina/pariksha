@@ -10,6 +10,7 @@ import TestSummary from "@/components/TestSummary";
 
 import TestNav from "@/components/TestNav";
 import TestAnswersReview from "@/components/TestAnswersReview";
+import withAuth from "@/utils/withAuth";
 
 function page({ params }) {
   const testName = params.testname;
@@ -96,4 +97,4 @@ function page({ params }) {
   );
 }
 
-export default page;
+export default withAuth(page);

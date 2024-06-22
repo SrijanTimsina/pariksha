@@ -4,7 +4,6 @@ import { ApiError } from "../utils/ApiError.js";
 import { Course } from "../models/course.model.js";
 
 import { ApiResponse } from "../utils/ApiResponse.js";
-import path from "path";
 
 const createCourse = asyncHandler(async (req, res) => {
   const { title, description } = req.body;

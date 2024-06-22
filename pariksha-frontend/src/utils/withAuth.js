@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 export default function withAuth(WrappedComponent) {
   return function WithAuth(props) {
-    const session = false;
+    const session = true;
     useEffect(() => {
       if (!session) {
         redirect("/login");

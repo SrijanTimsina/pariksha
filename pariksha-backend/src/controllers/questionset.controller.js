@@ -15,7 +15,7 @@ const createQuestionSet = asyncHandler(async (req, res) => {
   const courseId = new ObjectId("66601a157314e240c5000996");
   const { title, description, link, number, subjects } = req.body;
 
-  if ([title, id, type].some((field) => field?.trim() === "")) {
+  if ([title, link, type].some((field) => field?.trim() === "")) {
     throw new ApiError(400, "All fields are required.");
   }
 

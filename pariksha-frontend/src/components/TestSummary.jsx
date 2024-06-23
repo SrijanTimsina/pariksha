@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PrimaryButton from "./PrimaryButton";
 import { Progress } from "@chakra-ui/react";
 import FullPageAd from "./FullPageAd";

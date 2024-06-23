@@ -96,13 +96,6 @@ const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
 
   return (
     <div className="content-container flex flex-col items-center gap-4 pt-2">
-      <Image
-        src={"/up.jpg"}
-        alt="up"
-        width={1200}
-        height={200}
-        className="rounded-md"
-      />
       <h2 className="mb-4 text-xl font-semibold">{currentSubject.name}</h2>
       <div>
         {currentQuestions.map((question, idx) => (

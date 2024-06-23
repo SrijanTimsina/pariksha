@@ -34,7 +34,7 @@ const createQuestionSubject = async ({ subject }) => {
         })
       );
 
-      const shuffledAnswers = ShuffleArray(answersArray);
+      const shuffledAnswers = await ShuffleArray(answersArray);
 
       const createdQuestion = await Question.create({
         questionText: question.text,

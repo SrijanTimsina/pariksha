@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { getTestInfo, submitTestAnswers } from "@/hooks/tests";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useToast } from "@chakra-ui/react";
 
 import TestQuestions from "@/components/TestQuestions";
 import TestDetails from "@/components/TestDetails";
@@ -11,6 +12,7 @@ import TestSummary from "@/components/TestSummary";
 import TestNav from "@/components/TestNav";
 import TestAnswersReview from "@/components/TestAnswersReview";
 import withAuth from "@/utils/withAuth";
+import Image from "next/image";
 
 function page({ params }) {
   const testName = params.testname;
@@ -19,6 +21,7 @@ function page({ params }) {
 
   const [userSelectedAnswers, setUserSelectedAnswers] = useState({});
   const [testSummary, setTestSummary] = useState({});
+  const toast = useToast();
 
   const {
     data: testData,
@@ -55,7 +58,7 @@ function page({ params }) {
               title={testData?.title}
               start={() => {
                 setTestStatus("running");
-                setCountdownDate(Date.now() + 7200 * 1000);
+                setCountdownDate(Date.now() + 7200);
               }}
               questionsCount={100}
               totalMarks={100}
@@ -63,12 +66,32 @@ function page({ params }) {
             />
           )}
           {testStatus === "running" && (
-            <div className="">
+            <div>
+              <div className="flex w-full flex-col items-center">
+                <Image
+                  src={"/up.jpg"}
+                  alt="up"
+                  width={1200}
+                  height={200}
+                  className="rounded-md"
+                />
+              </div>
               <TestNav
                 count={Object.keys(userSelectedAnswers).length}
                 title={testData?.title}
                 countdownDate={countdownDate}
                 handleSubmit={handleSubmit}
+                onTimerEnd={() => {
+                  toast({
+                    title: "Time's up.",
+                    description: "Your time is up. Please view your results",
+                    status: "info",
+                    duration: 9000,
+                    isClosable: true,
+                  });
+
+                  handleSubmit();
+                }}
               />
 
               <TestQuestions

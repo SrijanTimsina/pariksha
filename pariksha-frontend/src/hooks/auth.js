@@ -11,6 +11,17 @@ export const loginUser = async (formData) => {
   });
   return data;
 };
+export const logoutUser = async () => {
+  const { data } = await axios.post(
+    `${API_URL}/users/logout`,
+    {},
+    {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    }
+  );
+  return data;
+};
 
 export const registerUser = async (formData) => {
   const { data } = await axios.post(`${API_URL}/users/register`, formData, {
@@ -24,6 +35,19 @@ export const getCurrentUser = async () => {
   const { data } = await axiosInstance.get(`/users/current-user`, {
     headers: { "Content-Type": "application/json" },
   });
+  return data;
+};
+export const refreshToken = async () => {
+  const { data } = await axios.post(
+    `${API_URL}/users/refresh-token`,
+    {},
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    }
+  );
   return data;
 };
 

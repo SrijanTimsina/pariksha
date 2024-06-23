@@ -137,8 +137,9 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: false,
+    secure: true,
     maxAge: 3600000,
+    sameSite: "None",
   };
 
   return res
@@ -171,6 +172,8 @@ const logoutUser = asyncHandler(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: true,
+    maxAge: 3600000,
+    sameSite: "None",
   };
   return res
     .status(200)
@@ -203,6 +206,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     const options = {
       httpOnly: true,
       secure: true,
+      maxAge: 3600000,
+      sameSite: "None",
     };
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(

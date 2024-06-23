@@ -14,7 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getSubjectInfo } from "@/hooks/subjects";
 
 export default function Drawer({ courseTitle, subjectTitle, videoId }) {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(true);
 
   const {
     data: subjectData,
@@ -25,7 +25,9 @@ export default function Drawer({ courseTitle, subjectTitle, videoId }) {
     queryFn: () => getSubjectInfo(subjectTitle, courseTitle),
   });
   return (
-    <div style={{ width: drawerOpen ? "300px" : "0" }}>
+    <div
+      className={`${styles.drawerWholeContainer} ${drawerOpen ? styles.drawerOpen : ""}`}
+    >
       <Button
         colorScheme="blackAlpha"
         onClick={() => setDrawerOpen(true)}

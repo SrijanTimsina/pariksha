@@ -3,6 +3,7 @@ import { API_URL } from "./constant.js";
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.response.use(

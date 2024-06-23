@@ -10,10 +10,6 @@ export default function Video({ url }) {
   const [adPlaying, setAdPlaying] = React.useState(false);
   const [adPlayed, setAdPlayed] = React.useState(false);
 
-  function playVideo() {
-    setPlaying(true);
-  }
-
   return (
     <div className="relative flex-1">
       {!adPlayed && (
@@ -37,6 +33,7 @@ export default function Video({ url }) {
             style={{
               aspectRatio: "16/9",
               maxHeight: "80vh",
+              backgroundColor: "#000",
               opacity: `${adPlaying ? 1 : 0}`,
             }}
           />

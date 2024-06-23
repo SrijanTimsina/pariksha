@@ -1,62 +1,23 @@
 import React from "react";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-  Box,
-} from "@chakra-ui/react";
-import { FaVideo } from "react-icons/fa";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function CourseDrawer({ subjects, courseTitle }) {
   return (
-    <Accordion allowMultiple={true}>
+    <div className="flex w-full flex-wrap gap-4">
       {subjects.map((subject, index) => (
-        <AccordionItem paddingY={0} key={index}>
-          <h2>
-            <AccordionButton>
-              <Box as="span" flex="1" textAlign="left">
-                {subject.title}
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel p={0}>
-            {subject.sections.map((section, index) => (
-              <Accordion allowMultiple={true} key={index}>
-                <AccordionItem>
-                  <h2>
-                    <AccordionButton>
-                      <Box as="span" flex="1" textAlign="left" className="pl-4">
-                        {section.title}
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel py={0} pb={8}>
-                    {section.videos.map((video, index) => (
-                      <Link
-                        href={`/${courseTitle}/videos/${subject.title}/${video._id}`}
-                        key={index}
-                      >
-                        <div className="mx-6 flex cursor-pointer items-center justify-between gap-4 p-2 hover:bg-[#eeeeee]">
-                          <div className="flex gap-10">
-                            <FaVideo />
-                            {video.title}
-                          </div>
-                          <p>{video.duration}</p>
-                        </div>
-                      </Link>
-                    ))}
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            ))}
-          </AccordionPanel>
-        </AccordionItem>
+        <Link href={`/${courseTitle}/videos/${subject.title}`} key={index}>
+          <Image
+            src={`/previewImages/${subject.title}.jpg`}
+            height={140}
+            width={200}
+            alt={subject.title}
+            className="rounded-xl"
+            style={{ height: "140px", width: "200px" }}
+          />
+          <p className="text-md mt-3 font-semibold">{subject.title}</p>
+        </Link>
       ))}
-    </Accordion>
+    </div>
   );
 }

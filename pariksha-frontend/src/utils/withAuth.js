@@ -1,20 +1,31 @@
 "use client";
 import { useEffect } from "react";
 
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import isUserAuthenticated from "./isUserAuthenticated";
+import Spinner from "./Spinner";
 
 export default function withAuth(WrappedComponent) {
   return function WithAuth(props) {
-    const session = true;
-    useEffect(() => {
-      if (!session) {
-        redirect("/login");
-      }
-    }, []);
+    const router = useRouter();
+    const {
+      data: session,
+      isPending: loading,
+      isError: error,
+    } = isUserAuthenticated();
 
-    if (!session) {
-      return null;
+    useEffect(() => {
+      if (error) {
+        router.push("/login");
+      }
+    }, [session, router, loading, error]);
+
+    if (loading) {
+      return <Spinner />;
     }
-    return <WrappedComponent {...props} />;
+
+    if (session) {
+      return <WrappedComponent {...props} />;
+    }
   };
 }

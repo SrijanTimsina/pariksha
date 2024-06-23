@@ -1,3 +1,5 @@
+"use client";
+
 import Drawer from "@/components/Drawer/Drawer";
 
 export default function Layout({ children, params }) {
@@ -6,7 +8,7 @@ export default function Layout({ children, params }) {
   const courseTitle = "csit-entrance";
 
   return (
-    <div className="relative flex w-full">
+    <div className="videoPageContainer relative flex w-full">
       {children}
       <Drawer
         videoId={videoId}

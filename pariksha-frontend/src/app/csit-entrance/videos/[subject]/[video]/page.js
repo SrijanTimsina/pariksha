@@ -6,11 +6,12 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getVideo } from "@/hooks/videos";
 import { getSubjectInfo } from "@/hooks/subjects";
+import withAuth from "@/utils/withAuth";
 
-export default function Course({ params }) {
+function Course({ params }) {
   const videoId = params.video;
   const subjectTitle = params.subject;
-  const courseTitle = params.course;
+  const courseTitle = "csit-entrance";
 
   const {
     data: videoData,
@@ -21,5 +22,15 @@ export default function Course({ params }) {
     queryFn: () => getVideo(videoId),
   });
 
-  return <>{videoData && <Video url={videoData.videoFile} />}</>;
+  return (
+    <>
+      {videoData && (
+        <>
+          <Video url={videoData.videoFile} />
+        </>
+      )}
+    </>
+  );
 }
+
+export default withAuth(Course);

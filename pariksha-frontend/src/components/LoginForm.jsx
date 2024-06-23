@@ -9,6 +9,7 @@ import { loginUser } from "@/hooks/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Spinner from "@/utils/Spinner";
 
 const loginSchema = z.object({
   identifier: z.union([
@@ -41,6 +42,7 @@ const LoginForm = () => {
   return (
     <div>
       <div className="m-auto flex h-full w-full max-w-96 flex-col items-center justify-between border-2 border-gray-200 bg-white py-8">
+        {userLogin.isPending && <Spinner />}
         <Image src={"/01.png"} width={200} height={100} alt="Pariksha" />
         <p className="mb-10 mt-14">Welcome to Pariksha</p>
         <form
@@ -100,7 +102,7 @@ const LoginForm = () => {
         </form>
         <div className="mt-10 flex justify-center">
           <p className="text-sm text-gray-500">
-            Don't have an account?{" "}
+            Don't have an account?
             <Link href="/login/register" className="text-primary">
               Register
             </Link>

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "./constant.js";
-import { logoutUser, refreshToken } from "./auth.js";
+import { refreshToken } from "./auth.js";
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -18,10 +18,7 @@ axiosInstance.interceptors.response.use(
       try {
         await refreshToken();
         return axios(originalRequest);
-      } catch (error) {
-        await logoutUser();
-        return Promise.reject(error);
-      }
+      } catch (error) {}
     }
     return Promise.reject(error);
   }

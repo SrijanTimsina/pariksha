@@ -108,7 +108,11 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   if (!identifier && !email && !contactNumber) {
-    throw new ApiError(400, "ContactNumber or email is required");
+    throw new ApiError(400, "ContactNumber or email is required", [
+      {
+        identifier: "Enter contact number or email",
+      },
+    ]);
   }
 
   const user = await User.findOne(
@@ -117,14 +121,26 @@ const loginUser = asyncHandler(async (req, res) => {
       : { contactNumber: identifier }
   );
 
-  if (!user) {
-    throw new ApiError(404, "User is not registered");
-  }
+  try {
+    if (!user) {
+      throw new ApiError(404, "User is not registered", [
+        {
+          identifier: "The email or contact number is not registered.",
+        },
+      ]);
+    }
 
-  const isPasswordValid = await user.isPasswordCorrect(password);
+    const isPasswordValid = await user.isPasswordCorrect(password);
 
-  if (!isPasswordValid) {
-    throw new ApiError(401, "Password Incorrect");
+    if (!isPasswordValid) {
+      throw new ApiError(401, "Password Incorrect", [
+        {
+          password: "Incorrect password",
+        },
+      ]);
+    }
+  } catch (error) {
+    return res.status(error.statusCode).json(error);
   }
 
   const { refreshToken, accessToken } = await generateAccessAndRefreshTokens(

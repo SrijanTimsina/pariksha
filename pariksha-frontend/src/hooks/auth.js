@@ -11,6 +11,7 @@ export const loginUser = async (formData) => {
   });
   return data;
 };
+
 export const logoutUser = async () => {
   const { data } = await axios.post(
     `${API_URL}/users/logout`,

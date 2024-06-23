@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Spinner from "@/utils/Spinner";
+import { useAuth } from "@/utils/AuthContext";
 
 const loginSchema = z.object({
   identifier: z.union([
@@ -20,10 +21,12 @@ const loginSchema = z.object({
 });
 
 const LoginForm = () => {
+  const { login } = useAuth();
   const router = useRouter();
   const {
     register,
     handleSubmit,
+    setError: setLoginDetailsError,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(loginSchema),
@@ -31,7 +34,20 @@ const LoginForm = () => {
 
   const userLogin = useMutation({
     mutationFn: (formData) => loginUser(formData),
-    onSuccess: () => router.replace("/"),
+    onSuccess: (data) => {
+      login(data.data.user);
+      router.replace("/");
+    },
+    onError: (error) => {
+      error.response.data.errors.map((e) => {
+        for (let key in e) {
+          setLoginDetailsError(key, {
+            type: "manual",
+            message: e[key],
+          });
+        }
+      });
+    },
   });
 
   const onSubmit = (data, event) => {

@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { registerUser, checkUserDetails } from "@/hooks/auth";
+import { registerUser, checkUserDetails, loginUser } from "@/hooks/auth";
 import Image from "next/image";
 import Link from "next/link";
 import Input from "./Input";
@@ -86,9 +86,20 @@ const SignupForm = () => {
     },
   });
 
+  const userLogin = useMutation({
+    mutationFn: (formData) => loginUser(formData),
+    onSuccess: () => {
+      router.replace("/");
+    },
+  });
+
   const userSignup = useMutation({
     mutationFn: (formData) => registerUser(formData),
-    onSuccess: () => router.replace("/"),
+    onSuccess: (data, variables) =>
+      userLogin.mutate({
+        identifier: variables.contactNumber,
+        password: variables.password,
+      }),
   });
 
   const loginDetailsSubmit = (data, event) => {

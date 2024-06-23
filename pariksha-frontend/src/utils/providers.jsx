@@ -22,12 +22,12 @@ export function Providers({ children }) {
   );
   return (
     <ChakraProvider>
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
           <ReactQueryDevtools />
           {children}
-        </QueryClientProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </QueryClientProvider>
     </ChakraProvider>
   );
 }

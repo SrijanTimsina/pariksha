@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function CourseDrawer({ subjects, courseTitle }) {
   return (
-    <div className="flex w-full flex-wrap gap-4">
+    <div className="flex w-full items-center gap-4 max-[1000px]:flex-col">
       {subjects.map((subject, index) => (
         <Link href={`/${courseTitle}/videos/${subject.title}`} key={index}>
           <Image

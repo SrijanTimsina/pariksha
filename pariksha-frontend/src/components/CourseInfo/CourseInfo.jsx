@@ -27,12 +27,14 @@ function CourseInfo({ link }) {
           <div className="courseInfo">
             <div className="bg-[#2d2f31] text-white">
               <div className="content-container py-20">
-                <h1 className="mb-4 text-3xl font-semibold">
-                  {courseData.title}
-                </h1>
                 <div className="flex justify-between gap-10 max-[900px]:flex-col">
                   <div>
-                    <p>{courseData.description}</p>
+                    <h1 className="mb-8 text-3xl font-semibold">
+                      {courseData.title}
+                    </h1>
+                    <p className="mb-8 text-justify">
+                      {courseData.description}
+                    </p>
                     <p className="mt-4 rounded-lg bg-green-700 px-4 py-2 text-center font-semibold text-yellow-300">
                       You need to log in to enroll in this course and prepare
                       for the examination
@@ -72,7 +74,6 @@ function CourseInfo({ link }) {
             </div>
             <div className="mt-10 w-full">
               <h1 className="mb-4 text-2xl font-semibold">Course Content</h1>
-
               <CourseDrawer subjects={courseData.subjects} courseTitle={link} />
             </div>
           </div>

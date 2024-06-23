@@ -46,9 +46,11 @@ export default function Drawer({ courseTitle, subjectTitle, videoId }) {
       <div
         className={`${styles.drawerContainer} ${
           drawerOpen ? styles.show : ""
-        } w-80 pl-0.5`}
+        } pl-0.5`}
       >
-        <div className="flex items-center justify-between border-b-2 border-solid border-[#d1d7dc] px-8 py-4">
+        <div
+          className={`${styles.drawerHeader} flex items-center justify-between border-b-2 border-solid border-[#d1d7dc] px-8 py-4`}
+        >
           <p className="font-semibold">Course Content</p>
           <button onClick={() => setDrawerOpen(false)}>
             <RxCross1 />

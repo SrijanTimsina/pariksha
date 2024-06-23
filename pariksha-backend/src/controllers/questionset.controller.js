@@ -13,7 +13,7 @@ import { ObjectId } from "mongodb";
 const createQuestionSet = asyncHandler(async (req, res) => {
   const { type } = req.params;
   const courseId = new ObjectId("66601a157314e240c5000996");
-  const { title, description, id, number, subjects } = req.body;
+  const { title, description, link, number, subjects } = req.body;
 
   if ([title, id, type].some((field) => field?.trim() === "")) {
     throw new ApiError(400, "All fields are required.");
@@ -24,7 +24,7 @@ const createQuestionSet = asyncHandler(async (req, res) => {
   }
   const questionSet = await QuestionSet.create({
     title,
-    link: id,
+    link,
     description,
     number,
     setType: type,

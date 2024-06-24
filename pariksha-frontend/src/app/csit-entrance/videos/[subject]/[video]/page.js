@@ -1,6 +1,5 @@
 "use client";
 
-import Drawer from "@/components/Drawer/Drawer";
 import Video from "@/components/Video";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -10,8 +9,6 @@ import withAuth from "@/utils/withAuth";
 
 function Course({ params }) {
   const videoId = params.video;
-  const subjectTitle = params.subject;
-  const courseTitle = "csit-entrance";
 
   const {
     data: videoData,

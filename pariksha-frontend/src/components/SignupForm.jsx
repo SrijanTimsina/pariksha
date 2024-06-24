@@ -127,8 +127,13 @@ const SignupForm = () => {
 
   return (
     <div>
-      <div className="m-auto flex h-full w-full max-w-96 flex-col items-center justify-between border-2 border-gray-200 bg-white py-8">
-        <Image src={"/01.png"} width={200} height={100} alt="Pariksha" />
+      <div className="m-auto flex h-full w-full max-w-[450px] flex-col items-center justify-between border-2 border-gray-200 bg-white py-8">
+        <Image
+          src={"/ParikshaLogo.webp"}
+          width={200}
+          height={100}
+          alt="Pariksha"
+        />
         <p className="mb-10 mt-14">Welcome to Pariksha</p>
         {!loginDetailsFilled && (
           <form

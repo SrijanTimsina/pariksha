@@ -11,16 +11,17 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useAuth } from "@/utils/AuthContext";
+import { useRouter } from "next/navigation";
 import PrimaryButton from "./PrimaryButton";
 import { useMutation } from "@tanstack/react-query";
 import { logoutUser } from "@/hooks/auth";
-import { useRouter } from "next/navigation";
 import { MdOutlineLogout } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
 
 export default function Navbar() {
   const router = useRouter();
   const { user, logout } = useAuth();
+
   const userLogout = useMutation({
     mutationFn: () => logoutUser(),
     onSuccess: () => {

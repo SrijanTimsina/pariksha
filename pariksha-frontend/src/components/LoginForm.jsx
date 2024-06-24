@@ -59,7 +59,12 @@ const LoginForm = () => {
     <div>
       <div className="m-auto flex h-full w-full max-w-96 flex-col items-center justify-between border-2 border-gray-200 bg-white py-8">
         {userLogin.isPending && <Spinner />}
-        <Image src={"/01.png"} width={200} height={100} alt="Pariksha" />
+        <Image
+          src={"/ParikshaLogo.webp"}
+          width={200}
+          height={100}
+          alt="Pariksha"
+        />
         <p className="mb-10 mt-14">Welcome to Pariksha</p>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -75,7 +80,7 @@ const LoginForm = () => {
             <input
               id="identifier"
               {...register("identifier")}
-              className="border-b-2 pb-1 outline-none"
+              className="border-b-2 border-solid border-gray-200 pb-1 outline-none"
             />
             <div className="h-6">
               {errors.identifier && (
@@ -96,7 +101,7 @@ const LoginForm = () => {
               id="password"
               type="password"
               {...register("password")}
-              className="border-b-2 pb-1 outline-none"
+              className="border-b-2 border-solid border-gray-200 pb-1 outline-none"
             />
             <div className="h-6">
               {errors.password && (

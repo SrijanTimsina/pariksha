@@ -1,4 +1,7 @@
+"use client";
+
 import { redirect } from "next/navigation";
+import withAuth from "@/utils/withAuth";
 
 async function getData(params) {
   const subject = params.subject;
@@ -14,4 +17,4 @@ async function Subject({ params }) {
   redirect(`/${routePath}`);
 }
 
-export default Subject;
+export default withAuth(Subject);

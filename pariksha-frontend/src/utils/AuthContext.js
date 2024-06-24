@@ -1,15 +1,17 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useState } from "react";
 import { getCurrentUser } from "@/hooks/auth";
 
 const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
+export function AuthProvider({ accessToken, children }) {
   const [user, setUser] = useState(null);
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["current-user"],
-    queryFn: () => getCurrentUser(),
+    queryFn: () => (accessToken.value ? getCurrentUser() : ""),
   });
 
   useEffect(() => {

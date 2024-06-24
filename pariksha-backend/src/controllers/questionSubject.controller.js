@@ -34,12 +34,14 @@ const createQuestionSubject = async ({ subject }) => {
         })
       );
 
+      const correctAnswer = answersArray[0]["_id"];
+
       const shuffledAnswers = await ShuffleArray(answersArray);
 
       const createdQuestion = await Question.create({
         questionText: question.text,
         answers: shuffledAnswers,
-        correctAnswer: answersArray[0]["_id"],
+        correctAnswer: correctAnswer,
         questionSubject: createdQuestionSubject._id,
         subjectId: subjectId,
       });

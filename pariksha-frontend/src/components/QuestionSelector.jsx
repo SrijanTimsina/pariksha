@@ -20,7 +20,7 @@ export default function QuestionSelector({
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Button onClick={onOpen}>Open Question Selector</Button>
+      <Button onClick={onOpen}>Question Selector</Button>
 
       <Modal isOpen={isOpen} onClose={onClose} scrollBehavior={"inside"}>
         <ModalOverlay />

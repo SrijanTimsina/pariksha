@@ -48,6 +48,10 @@ function CourseInfo({ link }) {
             </div>
           </div>
           <div className="content-container">
+            <div className="mt-10 w-full">
+              <h1 className="mb-4 text-2xl font-semibold">Course Content</h1>
+              <CourseDrawer subjects={courseData.subjects} courseTitle={link} />
+            </div>
             <div className="mt-10 bg-white">
               <h1 className="mb-6 text-2xl font-semibold">Past Questions</h1>
               <div className="flex flex-wrap gap-4">
@@ -71,10 +75,6 @@ function CourseInfo({ link }) {
                   </Link>
                 ))}
               </div>
-            </div>
-            <div className="mt-10 w-full">
-              <h1 className="mb-4 text-2xl font-semibold">Course Content</h1>
-              <CourseDrawer subjects={courseData.subjects} courseTitle={link} />
             </div>
           </div>
         </>

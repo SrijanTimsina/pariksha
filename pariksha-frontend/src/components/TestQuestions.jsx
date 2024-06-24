@@ -13,6 +13,7 @@ import { renderMath } from "@/utils/renderMath";
 
 import QuestionSelector from "@/components/QuestionSelector";
 import Image from "next/image";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
   const [currentSubjectIndex, setCurrentSubjectIndex] = useState(0);
@@ -95,11 +96,13 @@ const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
   }, [userAnswers]);
 
   return (
-    <div className="content-container flex flex-col items-center gap-4 pt-2">
-      <h2 className="mb-4 text-xl font-semibold">{currentSubject.name}</h2>
-      <div>
+    <div className="content-container flex flex-col items-center gap-2 pt-2">
+      <h2 className="mb-6 text-xl font-semibold min-[900px]:-mt-14">
+        {currentSubject.name}
+      </h2>
+      <div className="m-auto w-full max-w-[400px]">
         {currentQuestions.map((question, idx) => (
-          <div key={idx}>
+          <div key={idx} className="w-full">
             <div className="mb-2 flex gap-6">
               <p className="text-md mt-2 font-bold">
                 {globalQuestionIndex + startIdx + idx + 1}.
@@ -123,34 +126,33 @@ const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
           </div>
         ))}
       </div>
-      <div className="mb-4 mt-8">
-        <ButtonGroup spacing={4}>
-          <Button
-            onClick={handleBack}
-            isDisabled={currentSubjectIndex === 0 && currentPage === 0}
-            colorScheme={"blackAlpha"}
-            paddingX={8}
-          >
-            Back
-          </Button>
-          <Button
-            onClick={handleNext}
-            isDisabled={
-              currentSubjectIndex === subjects.length - 1 &&
-              currentPage === totalPages - 1
-            }
-            paddingX={8}
-          >
-            Next
-          </Button>
-        </ButtonGroup>
+      <div className="m-auto mb-4 mt-4 flex w-full max-w-[400px] justify-between">
+        <Button
+          onClick={handleBack}
+          isDisabled={currentSubjectIndex === 0 && currentPage === 0}
+          colorScheme={"blackAlpha"}
+          paddingX={2}
+        >
+          <FaAngleLeft size={24} />
+        </Button>
+        <QuestionSelector
+          subjects={subjects}
+          questionSelectorCount={questionSelectorCount}
+          jumpToQuestion={jumpToQuestion}
+          userAnswers={userAnswers}
+        />
+        <Button
+          onClick={handleNext}
+          isDisabled={
+            currentSubjectIndex === subjects.length - 1 &&
+            currentPage === totalPages - 1
+          }
+          paddingX={2}
+        >
+          <FaAngleRight size={24} />
+        </Button>
       </div>
-      <QuestionSelector
-        subjects={subjects}
-        questionSelectorCount={questionSelectorCount}
-        jumpToQuestion={jumpToQuestion}
-        userAnswers={userAnswers}
-      />
+
       <Image
         src={"/up.jpg"}
         alt="up"

@@ -58,7 +58,7 @@ function page({ params }) {
               title={testData?.title}
               start={() => {
                 setTestStatus("running");
-                setCountdownDate(Date.now() + 7200);
+                setCountdownDate(Date.now() + 7200 * 1000);
               }}
               questionsCount={100}
               totalMarks={100}

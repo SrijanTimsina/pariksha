@@ -33,7 +33,11 @@ export default function Navbar() {
     <div className="navContainer fixed z-[9999] flex h-20 w-full items-center justify-between border-b-2 border-b-gray-200 bg-white px-10 py-4">
       <div className="logoContainer">
         <Link href="/">
-          <Image src="/01.png" alt="PARIKSHA" className="w-40 text-white" />
+          <Image
+            src="/ParikshaLogo.webp"
+            alt="PARIKSHA"
+            className="w-40 text-white"
+          />
         </Link>
       </div>
       {!user && (

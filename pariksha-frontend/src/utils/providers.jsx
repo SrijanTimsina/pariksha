@@ -7,7 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AuthProvider } from "./AuthContext";
 
-export function Providers({ accessToken, children }) {
+export function Providers({ children }) {
   const [queryClient] = React.useState(
     () =>
       new QueryClient({
@@ -23,7 +23,7 @@ export function Providers({ accessToken, children }) {
   return (
     <ChakraProvider>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider accessToken={accessToken}>
+        <AuthProvider>
           <ReactQueryDevtools />
           {children}
         </AuthProvider>

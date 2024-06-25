@@ -1,7 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/utils/providers";
-import { cookies } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,13 +10,10 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get("accessToken");
-
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers accessToken={accessToken}>
+        <Providers>
           <div className="pb-8">{children}</div>
         </Providers>
       </body>

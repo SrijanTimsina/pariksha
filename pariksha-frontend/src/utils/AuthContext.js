@@ -6,12 +6,12 @@ import { getCurrentUser } from "@/hooks/auth";
 
 const AuthContext = createContext();
 
-export function AuthProvider({ accessToken, children }) {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["current-user"],
-    queryFn: () => (accessToken.value ? getCurrentUser() : ""),
+    queryFn: () => getCurrentUser(),
   });
 
   useEffect(() => {

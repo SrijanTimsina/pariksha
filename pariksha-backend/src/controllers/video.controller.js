@@ -3,6 +3,9 @@ import { ApiError } from "../utils/ApiError.js";
 
 import { Section } from "../models/section.model.js";
 import { Video } from "../models/video.model.js";
+import { Subject } from "../models/subject.model.js";
+
+import { User } from "../models/user.model.js";
 
 import { ApiResponse } from "../utils/ApiResponse.js";
 
@@ -52,4 +55,19 @@ const getVideo = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, video, "Video fetched successfully."));
 });
 
-export { createVideo, getVideo };
+const updateUserWatchHistory = asyncHandler(async (req, res) => {
+  const { watchHistory } = req.body;
+
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: { watchHistory: watchHistory },
+    },
+    { new: true }
+  );
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "User subject watching updated."));
+});
+
+export { createVideo, getVideo, updateUserWatchHistory };

@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 
 import { Subject } from "../models/subject.model.js";
 import { Course } from "../models/course.model.js";
+import { User } from "../models/user.model.js";
 
 import { ApiResponse } from "../utils/ApiResponse.js";
 
@@ -66,4 +67,19 @@ const getSubjectInfo = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, subject, "Subject fetched successfully."));
 });
 
-export { createSubject, getSubjectInfo };
+const updateUserSubjectVideo = asyncHandler(async (req, res) => {
+  const { userData } = req.body;
+
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: { subjectCurrentWatching: userData },
+    },
+    { new: true }
+  );
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "User subject watching updated."));
+});
+
+export { createSubject, getSubjectInfo, updateUserSubjectVideo };

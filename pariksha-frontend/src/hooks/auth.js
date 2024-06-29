@@ -9,7 +9,7 @@ export const loginUser = async (formData) => {
     headers: { "Content-Type": "application/json" },
     withCredentials: true,
   });
-  return data;
+  return data.data;
 };
 
 export const logoutUser = async () => {
@@ -36,7 +36,7 @@ export const getCurrentUser = async () => {
   const { data } = await axiosInstance.get(`/users/current-user`, {
     headers: { "Content-Type": "application/json" },
   });
-  return data;
+  return data.data;
 };
 export const refreshToken = async () => {
   const { data } = await axios.post(

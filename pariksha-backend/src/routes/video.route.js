@@ -1,10 +1,16 @@
 import { Router } from "express";
 
-import { createVideo, getVideo } from "../controllers/video.controller.js";
+import {
+  createVideo,
+  getVideo,
+  updateUserWatchHistory,
+} from "../controllers/video.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
 router.route("/create").post(createVideo);
-router.route("/getVideo/:videoId").get(getVideo);
+router.route("/getVideo/:videoId/:subjectName").get(getVideo);
+router.route("/updateUserWatchHistory").post(verifyJWT, updateUserWatchHistory);
 
 export default router;

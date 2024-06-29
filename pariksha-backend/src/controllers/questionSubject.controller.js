@@ -12,7 +12,7 @@ const subjects = {
   Physics: new ObjectId("666408d03c23ffa9cfa9bf4e"),
   Chemistry: new ObjectId("666408ca3c23ffa9cfa9bf4a"),
   English: new ObjectId("66601a337314e240c5000999"),
-  "Computer Gk": new ObjectId("666408f33c23ffa9cfa9bf52"),
+  "Computer-Gk": new ObjectId("666408f33c23ffa9cfa9bf52"),
 };
 
 const createQuestionSubject = async ({ subject }) => {

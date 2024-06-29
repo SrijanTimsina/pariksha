@@ -1,14 +1,20 @@
 "use client";
 
 import Video from "@/components/Video";
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getVideo } from "@/hooks/videos";
-import { getSubjectInfo } from "@/hooks/subjects";
+import { useAuth } from "@/utils/AuthContext";
 import withAuth from "@/utils/withAuth";
 
-function Course({ params }) {
+function VideoPage({ params }) {
+  const { changeSubjectCurrentWatching } = useAuth();
   const videoId = params.video;
+  const subject = params.subject;
+
+  useEffect(() => {
+    changeSubjectCurrentWatching(`csit-entrance-${subject}`, videoId);
+  }, []);
 
   const {
     data: videoData,
@@ -16,18 +22,18 @@ function Course({ params }) {
     isError,
   } = useQuery({
     queryKey: ["video", videoId],
-    queryFn: () => getVideo(videoId),
+    queryFn: () => getVideo(videoId, subject),
   });
 
   return (
     <>
       {videoData && (
         <>
-          <Video url={videoData.videoFile} />
+          <Video url={videoData.videoFile} videoId={videoId} />
         </>
       )}
     </>
   );
 }
 
-export default withAuth(Course);
+export default withAuth(VideoPage);

@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useRef } from "react";
+import { useAuth } from "@/utils/AuthContext";
 
 import ReactPlayer from "react-player";
 
-export default function Video({ url }) {
+export default function Video({ url, videoId }) {
+  const { addToWatchHistory } = useAuth();
   const playerRef = useRef(null);
   const [playing, setPlaying] = React.useState(false);
   const [adPlaying, setAdPlaying] = React.useState(false);
@@ -51,6 +53,9 @@ export default function Video({ url }) {
         style={{
           aspectRatio: "16/9",
           maxHeight: "80vh",
+        }}
+        onEnded={() => {
+          addToWatchHistory(videoId);
         }}
       />
     </div>

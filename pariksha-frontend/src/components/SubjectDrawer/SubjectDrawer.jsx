@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { MdOndemandVideo } from "react-icons/md";
 import Link from "next/link";
-import { Checkbox, CheckboxGroup } from "@chakra-ui/react";
+import { useAuth } from "@/utils/AuthContext";
 
 export default function SubjectDrawer({
   subjectData,
@@ -17,6 +17,8 @@ export default function SubjectDrawer({
   videoId,
   subjectTitle,
 }) {
+  const { watchHistory, addToWatchHistory, removeFromWatchHistory } = useAuth();
+
   const findIndexByVideoId = (array, videoId) => {
     for (let i = 0; i < array.length; i++) {
       const videos = array[i].videos;
@@ -59,6 +61,14 @@ export default function SubjectDrawer({
                     type="checkbox"
                     id={video._id}
                     className="mt-1 h-4 w-4 cursor-pointer"
+                    checked={watchHistory.includes(video._id)}
+                    onChange={() => {
+                      if (watchHistory.includes(video._id)) {
+                        removeFromWatchHistory(video._id);
+                      } else {
+                        addToWatchHistory(video._id);
+                      }
+                    }}
                   />
                 </div>
                 <Link

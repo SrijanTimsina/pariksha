@@ -1,0 +1,44 @@
+.hamburgerMenu.navActive {
+  display: flex;
+  transform: translateX(0);
+}
+.navActive:before,
+.navActive:after {
+  box-shadow: none !important;
+}
+.navActive:before {
+  transform: rotate(-45deg) !important;
+}
+.navActive:after {
+  transform: rotate(45deg) !important;
+}
+.navToggle {
+  width: 100%;
+  width: 22px;
+  text-align: right;
+  position: relative;
+}
+
+.navToggle:hover {
+  cursor: pointer;
+}
+.navToggle:before,
+.navToggle:after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 0;
+  transform: translate(0, 0);
+  width: 100%;
+  height: 2px;
+  background: black;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.navToggle:before {
+  box-shadow: 0 8px 0 0 black;
+}
+.navToggle:after {
+  box-shadow: 0 -8px 0 0 black;
+}

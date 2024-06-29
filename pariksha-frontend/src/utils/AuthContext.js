@@ -1,32 +1,72 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useState } from "react";
 import { getCurrentUser } from "@/hooks/auth";
+import { updateUserSubjectWatching } from "@/hooks/subjects";
+import { updateUserWatchHistory } from "@/hooks/videos";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ accessToken, refreshToken, children }) {
   const [user, setUser] = useState(null);
+  const [watchHistory, setWatchHistory] = useState([]);
+  const [subjectCurrentWatching, setSubjectCurrentWatching] = useState({});
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["current-user"],
-    queryFn: () =>
-      accessToken?.value
-        ? getCurrentUser()
-        : refreshToken?.value
-          ? getCurrentUser()
-          : "",
+    queryFn: () => getCurrentUser(),
+  });
+  const updateUserWatching = useMutation({
+    mutationFn: (data) => updateUserSubjectWatching(data),
+  });
+  const updateWatchHistory = useMutation({
+    mutationFn: (data) => updateUserWatchHistory(data),
   });
 
   useEffect(() => {
     if (data) {
       setUser(data);
+      setSubjectCurrentWatching(data.subjectCurrentWatching);
+      setWatchHistory(data.watchHistory);
     }
   }, [data]);
 
+  useEffect(() => {
+    if (
+      subjectCurrentWatching &&
+      Object.keys(subjectCurrentWatching).length > 0
+    ) {
+      updateUserWatching.mutate(subjectCurrentWatching);
+    }
+  }, [subjectCurrentWatching]);
+  useEffect(() => {
+    if (watchHistory && watchHistory.length > 0) {
+      updateWatchHistory.mutate(watchHistory);
+    }
+  }, [watchHistory]);
+
   const login = (userData) => {
     setUser(userData);
+    setSubjectCurrentWatching(userData.subjectCurrentWatching);
+    setWatchHistory(userData.watchHistory);
+  };
+
+  const changeSubjectCurrentWatching = (subject, videoId) => {
+    setSubjectCurrentWatching((prevState) => ({
+      ...prevState,
+      [subject]: videoId,
+    }));
+  };
+
+  const removeFromWatchHistory = (videoId) => {
+    if (watchHistory.includes(videoId)) {
+      setWatchHistory((prevState) => prevState.filter((id) => id !== videoId));
+    }
+  };
+  const addToWatchHistory = (videoId) => {
+    if (!watchHistory.includes(videoId))
+      setWatchHistory((prevState) => [...prevState, videoId]);
   };
 
   const logout = () => {
@@ -34,7 +74,18 @@ export function AuthProvider({ accessToken, refreshToken, children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        watchHistory,
+        subjectCurrentWatching,
+        changeSubjectCurrentWatching,
+        removeFromWatchHistory,
+        addToWatchHistory,
+        login,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

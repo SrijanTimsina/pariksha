@@ -9,6 +9,7 @@ import {
   updateFullName,
   getUserWatchHistory,
   getCurrentUser,
+  sendOtp,
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -40,5 +41,7 @@ router.route("/change-password").patch(verifyJWT, changeCurrentPassword);
 router.route("/update-fullName").patch(verifyJWT, updateFullName);
 
 router.route("/watch-history").get(verifyJWT, getUserWatchHistory);
+
+router.route("/sendOtp").post(sendOtp);
 
 export default router;

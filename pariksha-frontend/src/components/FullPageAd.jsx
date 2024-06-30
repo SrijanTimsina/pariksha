@@ -9,13 +9,15 @@ export default function FullPageAd() {
   return (
     <>
       {adState && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-white">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(0,0,0,0.5)] px-4">
           <div>
-            <PrimaryButton
-              text={"Skip"}
-              className={"mb-2 w-max"}
-              onClick={() => setAdState(false)}
-            />
+            <div className="mb-4 flex w-full justify-end">
+              <PrimaryButton
+                text={"Skip"}
+                className={"mb-2 w-max rounded-md px-8"}
+                onClick={() => setAdState(false)}
+              />
+            </div>
             <Image
               src={fullPageAd}
               alt="fullpagead"

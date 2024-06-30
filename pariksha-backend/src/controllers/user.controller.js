@@ -1,8 +1,10 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
+import { Otp } from "../models/otp.model.js";
 
 import { ApiResponse } from "../utils/ApiResponse.js";
+import otpGenerator from "otp-generator";
 import jwt from "jsonwebtoken";
 
 const accessTokenOptions = {
@@ -334,6 +336,48 @@ const getUserWatchHistory = asyncHandler(async (req, res) => {
     );
 });
 
+const sendOtp = asyncHandler(async (req, res) => {
+  try {
+    const { contactNumber } = req.body;
+    if (!contactNumber) {
+      throw new ApiError(400, "Contact number is required");
+    }
+
+    const existedPhone = await User.findOne({
+      contactNumber: contactNumber,
+    });
+    if (existedPhone) {
+      throw new ApiError(409, "Contact number already used.", [
+        {
+          contactNumber: "Phone number already used.",
+        },
+      ]);
+    }
+
+    let otp = otpGenerator.generate(6, {
+      upperCaseAlphabets: false,
+      lowerCaseAlphabets: false,
+      specialChars: false,
+    });
+    let result = await Otp.findOne({ otp: otp });
+    while (result) {
+      otp = otpGenerator.generate(6, {
+        upperCaseAlphabets: false,
+        lowerCaseAlphabets: false,
+        specialChars: false,
+      });
+      result = await Otp.findOne({ otp: otp });
+    }
+    const otpPayload = { contactNumber, otp };
+    await Otp.create(otpPayload);
+    return res
+      .status(200)
+      .json(new ApiResponse(200, {}, "Otp sent successfully"));
+  } catch (error) {
+    return res.status(error.statusCode).json(error);
+  }
+});
+
 export {
   registerUser,
   checkUserExists,
@@ -344,4 +388,5 @@ export {
   getCurrentUser,
   updateFullName,
   getUserWatchHistory,
+  sendOtp,
 };

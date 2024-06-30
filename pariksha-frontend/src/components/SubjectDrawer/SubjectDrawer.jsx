@@ -28,6 +28,7 @@ export default function SubjectDrawer({
     }
     return 0;
   };
+  let count = 0;
 
   return (
     <Accordion
@@ -51,40 +52,45 @@ export default function SubjectDrawer({
             </AccordionButton>
           </h2>
           <AccordionPanel px={0} py={0} pb={0.5}>
-            {section.videos.map((video, index) => (
-              <div
-                className={`flex w-full cursor-pointer items-start gap-4 hover:bg-[#D1D7DC] ${videoId === video._id ? "bg-[#D1D7DC]" : ""}`}
-                key={index}
-              >
-                <div className="pl-4 pt-2">
-                  <input
-                    type="checkbox"
-                    id={video._id}
-                    className="mt-1 h-4 w-4 cursor-pointer"
-                    checked={watchHistory.includes(video._id)}
-                    onChange={() => {
-                      if (watchHistory.includes(video._id)) {
-                        removeFromWatchHistory(video._id);
-                      } else {
-                        addToWatchHistory(video._id);
-                      }
-                    }}
-                  />
-                </div>
-                <Link
-                  href={`/${courseTitle}/videos/${subjectTitle}/${video._id}`}
-                  className="w-full py-2 pr-4"
+            {section.videos.map((video, index) => {
+              count++;
+              return (
+                <div
+                  className={`flex w-full cursor-pointer items-start gap-4 hover:bg-[#D1D7DC] ${videoId === video._id ? "bg-[#D1D7DC]" : ""}`}
+                  key={index}
                 >
-                  <div className="w-full">
-                    <p className="mb-2 w-full text-sm">{video.title}</p>
-                    <p className="flex w-full items-center gap-2 text-xs text-gray-600">
-                      <MdOndemandVideo size={18} />
-                      {video.duration}
-                    </p>
+                  <div className="pl-4 pt-2">
+                    <input
+                      type="checkbox"
+                      id={video._id}
+                      className="mt-1 h-4 w-4 cursor-pointer"
+                      checked={watchHistory.includes(video._id)}
+                      onChange={() => {
+                        if (watchHistory.includes(video._id)) {
+                          removeFromWatchHistory(video._id);
+                        } else {
+                          addToWatchHistory(video._id);
+                        }
+                      }}
+                    />
                   </div>
-                </Link>
-              </div>
-            ))}
+                  <Link
+                    href={`/${courseTitle}/videos/${subjectTitle}/${video._id}`}
+                    className="w-full py-2 pr-4"
+                  >
+                    <div className="w-full">
+                      <p className="mb-2 w-full text-sm">
+                        {count}. {video.title}
+                      </p>
+                      <p className="flex w-full items-center gap-2 text-xs text-gray-600">
+                        <MdOndemandVideo size={18} />
+                        {video.duration}
+                      </p>
+                    </div>
+                  </Link>
+                </div>
+              );
+            })}
           </AccordionPanel>
         </AccordionItem>
       ))}

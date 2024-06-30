@@ -13,7 +13,7 @@ export default function Video({ url, videoId }) {
   const [adPlayed, setAdPlayed] = React.useState(false);
 
   return (
-    <div className="relative flex-1">
+    <div className="relative">
       {!adPlayed && (
         <div
           className="adVideoContainer absolute inset-0"

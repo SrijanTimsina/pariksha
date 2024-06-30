@@ -52,6 +52,13 @@ export const refreshToken = async () => {
   return data;
 };
 
+export const sendOtp = async (number) => {
+  const { data } = await axios.post(`${API_URL}/users/sendOtp`, {
+    contactNumber: number,
+  });
+  return data;
+};
+
 export const checkUserDetails = async (formData) => {
   const { data } = await axios.post(`${API_URL}/users/check`, formData, {
     headers: { "Content-Type": "application/json" },

@@ -1,15 +1,22 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { registerUser, checkUserDetails, loginUser } from "@/hooks/auth";
+import {
+  registerUser,
+  checkUserDetails,
+  loginUser,
+  sendOtp,
+} from "@/hooks/auth";
 import Image from "next/image";
 import Link from "next/link";
 import Input from "./Input";
 import { useRouter } from "next/navigation";
+import { FaAngleLeft } from "react-icons/fa";
+import { HStack, PinInput, PinInputField } from "@chakra-ui/react";
 
 const loginDetailsSchema = z.object({
   contactNumber: z.string().regex(/^\d{10}$/, "Invalid phone number."),
@@ -30,11 +37,12 @@ const personalDetailsSchema = z.object({
 
 const SignupForm = () => {
   const router = useRouter();
-  const [loginDetailsFilled, setLoginDetailsFilled] = useState(false);
+  const [formStage, setFormStage] = useState("userDetails");
   const [loginDetails, setLoginDetails] = useState({});
   const [studyLocation, setStudyLocation] = useState(null);
-  const [abroadPlans, setAbroadPlans] = useState();
+  const [abroadPlans, setAbroadPlans] = useState(null);
   const [priority, setPriority] = useState(null);
+  const [otpError, setOtpError] = useState(false);
 
   const {
     register: loginDetailsRegister,
@@ -72,7 +80,7 @@ const SignupForm = () => {
     mutationFn: (formData) => checkUserDetails(formData),
     onSuccess: (data, variables) => {
       setLoginDetails({ ...variables });
-      setLoginDetailsFilled(true);
+      setFormStage("personalDetails");
     },
     onError: (error) => {
       error.response.data.errors.map((e) => {
@@ -83,6 +91,13 @@ const SignupForm = () => {
           });
         }
       });
+    },
+  });
+
+  const sendUserOtp = useMutation({
+    mutationFn: (number) => sendOtp(number),
+    onError: (error) => {
+      console.log(error);
     },
   });
 
@@ -102,13 +117,21 @@ const SignupForm = () => {
       }),
   });
 
+  const submitOtp = (value) => {
+    // userSignup.mutate({ ...loginDetails,  otp: value });
+    console.log(value);
+    setOtpError(true);
+  };
+
   const loginDetailsSubmit = (data, event) => {
     event.preventDefault();
     userCheck.mutate(data);
   };
   const personalDetailsSubmit = (data, event) => {
     event.preventDefault();
-    userSignup.mutate({ ...loginDetails, ...data });
+    setLoginDetails((prev) => ({ ...prev, ...data }));
+    sendUserOtp.mutate(loginDetails.contactNumber);
+    setFormStage("otp");
   };
 
   const studyLocationOptions = [
@@ -134,11 +157,11 @@ const SignupForm = () => {
           height={100}
           alt="Pariksha"
         />
-        <p className="mb-10 mt-14">Welcome to Pariksha</p>
-        {!loginDetailsFilled && (
+
+        {formStage === "userDetails" && (
           <form
             onSubmit={loginDetailsHandleSubmit(loginDetailsSubmit)}
-            className="flex w-full flex-col px-8"
+            className="mt-20 flex w-full flex-col px-8"
           >
             <Input
               name={"contactNumber"}
@@ -169,17 +192,27 @@ const SignupForm = () => {
 
             <button
               type="submit"
-              className="m-auto w-max rounded-3xl bg-primary px-14 py-2 text-white"
+              className="m-auto w-max rounded-xl bg-primary px-14 py-2.5 text-white"
             >
-              Next
+              Signup
             </button>
           </form>
         )}
-        {loginDetailsFilled && (
+        {formStage === "personalDetails" && (
           <form
             onSubmit={personalDetailsHandleSubmit(personalDetailsSubmit)}
-            className="flex w-full flex-col px-8"
+            className="mt-20 flex w-full flex-col px-8"
           >
+            <div>
+              <button
+                type="button"
+                className="mb-8 flex items-center gap-1 text-black"
+                onClick={() => setFormStage("userDetails")}
+              >
+                <FaAngleLeft size={16} color="gray" />{" "}
+                <span className="underline">Back</span>
+              </button>
+            </div>
             <div className="mb-4 flex w-full flex-col">
               <label
                 htmlFor="studyLocation"
@@ -198,7 +231,7 @@ const SignupForm = () => {
                   <button
                     type="button"
                     key={index}
-                    className={`whitespace-nowrap border border-black px-2 py-2 text-sm ${studyLocation === option.value ? "bg-gray-200" : ""}`}
+                    className={`whitespace-nowrap border border-gray-semiDark px-2 py-2 text-sm ${studyLocation === option.value ? "bg-primary text-white" : ""}`}
                     onClick={() => setStudyLocation(option.value)}
                   >
                     {option.label}
@@ -229,14 +262,14 @@ const SignupForm = () => {
               <div className="mt-2 grid grid-cols-3 gap-4">
                 <button
                   type="button"
-                  className={`whitespace-nowrap border border-black px-2 py-2 text-sm ${abroadPlans === true ? "bg-gray-200" : ""}`}
+                  className={`whitespace-nowrap border border-gray-semiDark px-2 py-2 text-sm ${abroadPlans === true ? "bg-primary text-white" : ""}`}
                   onClick={() => setAbroadPlans(true)}
                 >
                   Yes
                 </button>
                 <button
                   type="button"
-                  className={`whitespace-nowrap border border-black px-2 py-2 text-sm ${abroadPlans === false ? "bg-gray-200" : ""}`}
+                  className={`whitespace-nowrap border border-gray-semiDark px-2 py-2 text-sm ${abroadPlans === false ? "bg-primary text-white" : ""}`}
                   onClick={() => setAbroadPlans(false)}
                 >
                   No
@@ -268,7 +301,7 @@ const SignupForm = () => {
                   <button
                     type="button"
                     key={index}
-                    className={`whitespace-nowrap border border-black px-2 py-2 text-sm ${priority === option.value ? "bg-gray-200" : ""}`}
+                    className={`whitespace-nowrap border border-gray-semiDark px-2 py-2 text-sm ${priority === option.value ? "bg-primary text-white" : ""}`}
                     onClick={() => setPriority(option.value)}
                   >
                     {option.label}
@@ -285,20 +318,57 @@ const SignupForm = () => {
             </div>
             <div className="flex w-full gap-4">
               <button
-                type="button"
-                className="m-auto w-max rounded-md border border-black px-12 py-2 text-black hover:bg-gray-200"
-                onClick={() => setLoginDetailsFilled(false)}
-              >
-                Back
-              </button>
-              <button
                 type="submit"
-                className="m-auto w-max rounded-md border border-black bg-gray-200 px-12 py-2 text-black"
+                className="m-auto w-max rounded-xl bg-primary px-14 py-2.5 text-white"
               >
                 Signup
               </button>
             </div>
           </form>
+        )}
+        {formStage === "otp" && (
+          <div className="mt-20 flex w-full flex-col items-center justify-center px-8">
+            <p className="mb-14 text-sm text-gray-700">
+              Please enter the OTP sent to your registered mobile number to
+              complete the signup process.
+            </p>
+            <HStack>
+              <PinInput
+                onChange={() => setOtpError(false)}
+                onComplete={(value) => submitOtp(value)}
+                autoFocus
+                otp
+              >
+                <PinInputField
+                  borderColor={otpError ? "red" : "blackAlpha.400"}
+                />
+                <PinInputField
+                  borderColor={otpError ? "red" : "blackAlpha.400"}
+                />
+                <PinInputField
+                  borderColor={otpError ? "red" : "blackAlpha.400"}
+                />
+                <PinInputField
+                  borderColor={otpError ? "red" : "blackAlpha.400"}
+                />
+                <PinInputField
+                  borderColor={otpError ? "red" : "blackAlpha.400"}
+                />
+                <PinInputField
+                  borderColor={otpError ? "red" : "blackAlpha.400"}
+                />
+              </PinInput>
+            </HStack>
+            {otpError && (
+              <span className="mt-3 text-sm text-red-500">Invalid OTP.</span>
+            )}
+            <p className="mb-10 mt-8 text-sm text-gray-500">
+              Didn't receive the OTP? &nbsp;
+              <button className="font-semibold text-primary underline">
+                Resend
+              </button>
+            </p>
+          </div>
         )}
         <div className="mt-10 flex justify-center">
           <p className="text-sm text-gray-500">

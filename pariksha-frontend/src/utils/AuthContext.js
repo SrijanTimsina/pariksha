@@ -16,6 +16,10 @@ export function AuthProvider({ accessToken, refreshToken, children }) {
   const { data, isPending, isError } = useQuery({
     queryKey: ["current-user"],
     queryFn: () => getCurrentUser(),
+    refetchOnWindowFocus: false,
+    refetchOnmount: false,
+    refetchOnReconnect: false,
+    retry: false,
   });
   const updateUserWatching = useMutation({
     mutationFn: (data) => updateUserSubjectWatching(data),

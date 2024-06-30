@@ -152,14 +152,6 @@ const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
           <FaAngleRight size={24} />
         </Button>
       </div>
-
-      <Image
-        src={"/up.jpg"}
-        alt="up"
-        width={1200}
-        height={200}
-        className="rounded-md"
-      />
     </div>
   );
 };

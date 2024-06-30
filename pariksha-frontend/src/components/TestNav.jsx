@@ -9,7 +9,7 @@ export default function TestNav({
   onTimerEnd,
 }) {
   return (
-    <div className="mt-1 border-y-2 border-y-gray-200 bg-white">
+    <div className="border-y-2 border-y-gray-200 bg-white">
       <div className="content-container flex w-full flex-col gap-8 py-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-center text-lg font-semibold"> {title}</p>
         <div className="flex items-center gap-10 max-sm:justify-between">

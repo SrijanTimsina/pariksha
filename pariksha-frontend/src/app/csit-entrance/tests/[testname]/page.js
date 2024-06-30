@@ -68,13 +68,7 @@ function page({ params }) {
           {testStatus === "running" && (
             <div>
               <div className="flex w-full flex-col items-center">
-                <Image
-                  src={"/up.jpg"}
-                  alt="up"
-                  width={1200}
-                  height={200}
-                  className="rounded-md"
-                />
+                <Image src={"/150.png"} alt="up" width={1200} height={200} />
               </div>
               <TestNav
                 count={Object.keys(userSelectedAnswers).length}
@@ -98,6 +92,9 @@ function page({ params }) {
                 subjects={testData.subjects}
                 setUserSelectedAnswers={setUserSelectedAnswers}
               />
+              <div className="mt-4 flex w-full flex-col items-center">
+                <Image src={"/150.png"} alt="up" width={1200} height={200} />
+              </div>
             </div>
           )}
           {testSummary && testStatus === "summary" && (

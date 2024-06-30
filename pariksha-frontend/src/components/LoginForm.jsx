@@ -65,10 +65,10 @@ const LoginForm = () => {
           height={100}
           alt="Pariksha"
         />
-        <p className="mb-10 mt-14">Welcome to Pariksha</p>
+
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex w-full flex-col px-8"
+          className="mt-20 flex w-full flex-col px-8"
         >
           <div className="mb-4 flex w-full flex-col">
             <label
@@ -111,12 +111,14 @@ const LoginForm = () => {
               )}
             </div>
           </div>
-          <div className="mb-6 flex justify-end text-xs text-primary">
-            Forgot Password?
+          <div className="mb-6 flex justify-end text-xs font-normal text-primary">
+            <Link href="/login/forgotPassword" className="text-primary">
+              Forgot Password?
+            </Link>
           </div>
           <button
             type="submit"
-            className="m-auto w-max rounded-3xl bg-primary px-14 py-2 text-white"
+            className="m-auto w-max rounded-xl bg-primary px-14 py-2.5 text-white"
           >
             Login
           </button>
@@ -125,6 +127,7 @@ const LoginForm = () => {
           <p className="text-sm text-gray-500">
             Don't have an account?
             <Link href="/login/register" className="text-primary">
+              {" "}
               Register
             </Link>
           </p>

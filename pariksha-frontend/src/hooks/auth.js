@@ -52,9 +52,9 @@ export const refreshToken = async () => {
   return data;
 };
 
-export const sendOtp = async (number) => {
+export const sendOtp = async (identifier) => {
   const { data } = await axios.post(`${API_URL}/users/sendOtp`, {
-    contactNumber: number,
+    identifier: identifier,
   });
   return data;
 };

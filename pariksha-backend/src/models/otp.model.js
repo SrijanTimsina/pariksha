@@ -1,7 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
+import { sendOtpHandler } from "../utils/sendOtpHandler.js";
+
 const otpSchema = new Schema({
-  contactNumber: { type: Number, required: true, index: true },
+  identifier: { type: String, required: true, index: true },
   otp: { type: Number, required: true, index: true },
   createdAt: {
     type: Date,
@@ -12,8 +14,7 @@ const otpSchema = new Schema({
 
 otpSchema.pre("save", async function (next) {
   if (this.isNew) {
-    console.log(this.contactNumber, this.otp);
-    // await sendOtp(this.contactNumber, this.otp);
+    sendOtpHandler({ identifier: this.identifier, otp: this.otp });
   }
   next();
 });

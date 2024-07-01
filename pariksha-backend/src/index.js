@@ -7,7 +7,6 @@ dotenv.config({ path: "./.env" });
 connectDB()
   .then(() => {
     app.on("error", (err) => {
-      console.log("ERROR : ", err);
       process.exit(1);
     });
     app.listen(process.env.PORT || 3476, () => {

@@ -45,6 +45,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
     studyLocation,
     abroadPlans,
     priority,
+    otp,
   } = req.body;
 
   if (
@@ -59,6 +60,13 @@ const registerUser = asyncHandler(async (req, res, next) => {
   });
   if (existedUser) {
     throw new ApiError(409, "User is already registered.");
+  }
+  const response = await Otp.find({ identifier: contactNumber })
+    .sort({ createdAt: -1 })
+    .limit(1);
+
+  if (response.length === 0 || otp != response[0].otp) {
+    throw new ApiError(409, "Invalid OTP");
   }
 
   const user = await User.create({
@@ -259,6 +267,21 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Password changed successfully."));
 });
 
+const forgotPasswordChange = asyncHandler(async (req, res) => {
+  const { identifier, password, confirmPassword, otp } = req.body;
+  if (!identifier || !password || !confirmPassword || otp) {
+    throw new ApiError(400, "All fields are required.");
+  }
+  const user = await User.findOne(
+    identifier.includes("@")
+      ? { email: identifier }
+      : { contactNumber: identifier }
+  );
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+});
+
 const getCurrentUser = asyncHandler(async (req, res) => {
   return res
     .status(200)
@@ -338,20 +361,9 @@ const getUserWatchHistory = asyncHandler(async (req, res) => {
 
 const sendOtp = asyncHandler(async (req, res) => {
   try {
-    const { contactNumber } = req.body;
-    if (!contactNumber) {
+    const { identifier } = req.body;
+    if (!identifier) {
       throw new ApiError(400, "Contact number is required");
-    }
-
-    const existedPhone = await User.findOne({
-      contactNumber: contactNumber,
-    });
-    if (existedPhone) {
-      throw new ApiError(409, "Contact number already used.", [
-        {
-          contactNumber: "Phone number already used.",
-        },
-      ]);
     }
 
     let otp = otpGenerator.generate(6, {
@@ -368,12 +380,13 @@ const sendOtp = asyncHandler(async (req, res) => {
       });
       result = await Otp.findOne({ otp: otp });
     }
-    const otpPayload = { contactNumber, otp };
+    const otpPayload = { identifier, otp };
     await Otp.create(otpPayload);
     return res
       .status(200)
       .json(new ApiResponse(200, {}, "Otp sent successfully"));
   } catch (error) {
+    console.log(error);
     return res.status(error.statusCode).json(error);
   }
 });

@@ -115,12 +115,13 @@ const SignupForm = () => {
         identifier: variables.contactNumber,
         password: variables.password,
       }),
+    onError: (error) => {
+      setOtpError(true);
+    },
   });
 
   const submitOtp = (value) => {
-    // userSignup.mutate({ ...loginDetails,  otp: value });
-    console.log(value);
-    setOtpError(true);
+    userSignup.mutate({ ...loginDetails, otp: value });
   };
 
   const loginDetailsSubmit = (data, event) => {

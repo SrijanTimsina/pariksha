@@ -26,17 +26,17 @@ function CourseInfo({ link }) {
         <>
           <div className="courseInfo">
             <div className="bg-primaryDark text-white">
-              <div className="content-container py-20">
-                <div className="flex justify-between gap-10 max-[900px]:flex-col">
+              <div className="content-container py-8 min-[600px]:py-14 min-[1024px]:py-20">
+                <div className="flex justify-between gap-4 max-[1024px]:flex-col min-[1024px]:gap-10">
                   <div>
-                    <h1 className="mb-8 text-3xl font-semibold">
+                    <h1 className="text-2xl font-semibold max-[450px]:text-xl sm:text-3xl">
                       {courseData.title}
                     </h1>
-                    <p className="mb-8 text-justify text-lg">
+                    <p className="mb-8 mt-8 text-justify text-lg max-[1024px]:hidden">
                       {courseData.description}
                     </p>
                   </div>
-                  <div className="flex items-center justify-center min-[901px]:w-96">
+                  <div className="flex w-full items-center justify-center">
                     <PreviewVIdeo />
                   </div>
                 </div>

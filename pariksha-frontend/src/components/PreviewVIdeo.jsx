@@ -15,8 +15,14 @@ export default function PreviewVIdeo() {
     //     aspectRatio: "16/9",
     //   }}
     // />
-    <div className="w-[400px]">
-      <Image src={"/entrance.webp"} height={60} width={400} alt="Stock Image" />
+    <div className="w-full min-[1024px]:w-[550px]">
+      <Image
+        src={"/entrance.webp"}
+        height={60}
+        width={400}
+        alt="Stock Image"
+        style={{ width: "100%", aspectRatio: "16/9" }}
+      />
     </div>
   );
 }

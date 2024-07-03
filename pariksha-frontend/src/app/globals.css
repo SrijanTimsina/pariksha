@@ -43,15 +43,13 @@ code {
   -webkit-overflow-scrolling: touch;
 }
 .scrollContainer::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for WebKit browsers */
+  display: none;
 }
 
-/* For Internet Explorer, Edge */
 .scrollContainer {
-  -ms-overflow-style: none; /* IE and Edge */
+  -ms-overflow-style: none;
 }
 
-/* For Firefox */
 .scrollContainer {
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }

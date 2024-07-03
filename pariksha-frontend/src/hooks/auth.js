@@ -73,7 +73,6 @@ export const sendOtp = async (identifier) => {
 };
 
 export const verifyOtp = async (identifier, otp) => {
-  console.log(identifier, otp);
   const { data } = await axios.post(
     `${API_URL}/users/verifyOtp`,
     {

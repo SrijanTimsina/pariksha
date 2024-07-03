@@ -9,10 +9,10 @@ const sendOtpHandler = ({ identifier, otp }) => {
       body: `<p>Please donot reply to this email. This mail is not monitored.</p><br/><br/><br/><p>Your One Time Password is: ${otp}</p>`,
     });
   } else {
-    smsSender({
-      phone: identifier,
-      message: `Your One Time Password is: ${otp}`,
-    });
+    // smsSender({
+    //   phone: identifier,
+    //   message: `Your One Time Password is: ${otp}`,
+    // });
   }
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useState } from "react";
 import { getCurrentUser } from "@/hooks/auth";
 import { updateUserSubjectWatching } from "@/hooks/subjects";
@@ -12,13 +12,13 @@ export function AuthProvider({ accessToken, refreshToken, children }) {
   const [user, setUser] = useState(null);
   const [watchHistory, setWatchHistory] = useState([]);
   const [subjectCurrentWatching, setSubjectCurrentWatching] = useState({});
+  const queryClient = useQueryClient();
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["current-user"],
     queryFn: () => getCurrentUser(),
     refetchOnWindowFocus: false,
     refetchOnmount: false,
-    refetchOnReconnect: false,
     retry: false,
   });
   const updateUserWatching = useMutation({
@@ -50,10 +50,8 @@ export function AuthProvider({ accessToken, refreshToken, children }) {
     }
   }, [watchHistory]);
 
-  const login = (userData) => {
-    setUser(userData);
-    setSubjectCurrentWatching(userData.subjectCurrentWatching);
-    setWatchHistory(userData.watchHistory);
+  const login = () => {
+    queryClient.invalidateQueries(["current-user"]);
   };
 
   const changeSubjectCurrentWatching = (subject, videoId) => {

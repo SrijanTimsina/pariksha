@@ -14,9 +14,10 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import Input from "./Input";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { FaAngleLeft } from "react-icons/fa";
 import { HStack, PinInput, PinInputField } from "@chakra-ui/react";
+import { useAuth } from "@/utils/AuthContext";
 
 const loginDetailsSchema = z.object({
   contactNumber: z.string().regex(/^\d{10}$/, "Invalid phone number."),
@@ -36,13 +37,13 @@ const personalDetailsSchema = z.object({
 });
 
 const SignupForm = () => {
-  const router = useRouter();
   const [formStage, setFormStage] = useState("userDetails");
   const [loginDetails, setLoginDetails] = useState({});
   const [studyLocation, setStudyLocation] = useState(null);
   const [abroadPlans, setAbroadPlans] = useState(null);
   const [priority, setPriority] = useState(null);
   const [otpError, setOtpError] = useState(false);
+  const { login } = useAuth();
 
   const {
     register: loginDetailsRegister,
@@ -103,9 +104,7 @@ const SignupForm = () => {
 
   const userLogin = useMutation({
     mutationFn: (formData) => loginUser(formData),
-    onSuccess: () => {
-      router.replace("/");
-    },
+    onSuccess: login,
   });
 
   const userSignup = useMutation({

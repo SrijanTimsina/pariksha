@@ -8,7 +8,6 @@ import { useMutation } from "@tanstack/react-query";
 import { loginUser } from "@/hooks/auth";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Spinner from "@/utils/Spinner";
 import { useAuth } from "@/utils/AuthContext";
 
@@ -20,9 +19,8 @@ const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
-const LoginForm = () => {
+const LoginForm = ({ redirect }) => {
   const { login } = useAuth();
-  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -34,10 +32,7 @@ const LoginForm = () => {
 
   const userLogin = useMutation({
     mutationFn: (formData) => loginUser(formData),
-    onSuccess: (data) => {
-      login(data.data.user);
-      router.replace("/");
-    },
+    onSuccess: login,
     onError: (error) => {
       error.response.data.errors.map((e) => {
         for (let key in e) {
@@ -126,8 +121,10 @@ const LoginForm = () => {
         <div className="mt-10 flex justify-center">
           <p className="text-sm text-gray-500">
             Don't have an account?
-            <Link href="/login/register" className="text-primary">
-              {" "}
+            <Link
+              href={`/login/register?redirect=${redirect}`}
+              className="text-primary"
+            >
               Register
             </Link>
           </p>

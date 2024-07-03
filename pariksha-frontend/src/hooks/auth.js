@@ -59,6 +59,13 @@ export const sendOtp = async (identifier) => {
   return data;
 };
 
+export const getUserDetails = async (identifier) => {
+  const { data } = await axios.post(`${API_URL}/users/details`, {
+    identifier: identifier,
+  });
+  return data;
+};
+
 export const checkUserDetails = async (formData) => {
   const { data } = await axios.post(`${API_URL}/users/check`, formData, {
     headers: { "Content-Type": "application/json" },

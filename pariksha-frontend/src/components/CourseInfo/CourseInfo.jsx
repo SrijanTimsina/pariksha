@@ -25,19 +25,15 @@ function CourseInfo({ link }) {
       {courseData && (
         <>
           <div className="courseInfo">
-            <div className="bg-[#2d2f31] text-white">
+            <div className="bg-primaryDark text-white">
               <div className="content-container py-20">
                 <div className="flex justify-between gap-10 max-[900px]:flex-col">
                   <div>
                     <h1 className="mb-8 text-3xl font-semibold">
                       {courseData.title}
                     </h1>
-                    <p className="mb-8 text-justify">
+                    <p className="mb-8 text-justify text-lg">
                       {courseData.description}
-                    </p>
-                    <p className="mt-4 rounded-lg bg-green-700 px-4 py-2 text-center font-semibold text-yellow-300">
-                      You need to log in to enroll in this course and prepare
-                      for the examination
                     </p>
                   </div>
                   <div className="flex items-center justify-center min-[901px]:w-96">

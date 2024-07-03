@@ -37,3 +37,21 @@ code {
 .spinnerContainer {
   background-color: rgba(0, 0, 0, 0.4);
 }
+
+.scrollContainer {
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+.scrollContainer::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for WebKit browsers */
+}
+
+/* For Internet Explorer, Edge */
+.scrollContainer {
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* For Firefox */
+.scrollContainer {
+  scrollbar-width: none; /* Firefox */
+}

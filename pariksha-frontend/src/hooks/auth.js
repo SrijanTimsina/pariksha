@@ -38,6 +38,19 @@ export const getCurrentUser = async () => {
   });
   return data.data;
 };
+
+export const resetPassword = async (formData) => {
+  const { data } = await axios.patch(
+    `${API_URL}/users/reset-password`,
+    formData,
+    {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    }
+  );
+  return data.data;
+};
+
 export const refreshToken = async () => {
   const { data } = await axios.post(
     `${API_URL}/users/refresh-token`,
@@ -56,6 +69,19 @@ export const sendOtp = async (identifier) => {
   const { data } = await axios.post(`${API_URL}/users/sendOtp`, {
     identifier: identifier,
   });
+  return data;
+};
+
+export const verifyOtp = async (identifier, otp) => {
+  console.log(identifier, otp);
+  const { data } = await axios.post(
+    `${API_URL}/users/verifyOtp`,
+    {
+      identifier: identifier,
+      otp: otp,
+    },
+    { headers: { "Content-Type": "application/json" } }
+  );
   return data;
 };
 

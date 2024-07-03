@@ -120,7 +120,11 @@ const SignupForm = () => {
   });
 
   const submitOtp = (value) => {
-    userSignup.mutate({ ...loginDetails, otp: value });
+    userSignup.mutate({
+      ...loginDetails,
+      otp: value,
+      identifier: loginDetails.contactNumber,
+    });
   };
 
   const loginDetailsSubmit = (data, event) => {

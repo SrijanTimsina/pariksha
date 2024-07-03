@@ -6,6 +6,7 @@ import { Otp } from "../models/otp.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import otpGenerator from "otp-generator";
 import jwt from "jsonwebtoken";
+import { type } from "os";
 
 const accessTokenOptions = {
   httpOnly: true,
@@ -45,7 +46,6 @@ const registerUser = asyncHandler(async (req, res, next) => {
     studyLocation,
     abroadPlans,
     priority,
-    otp,
   } = req.body;
 
   if (
@@ -60,13 +60,6 @@ const registerUser = asyncHandler(async (req, res, next) => {
   });
   if (existedUser) {
     throw new ApiError(409, "User is already registered.");
-  }
-  const response = await Otp.find({ identifier: contactNumber })
-    .sort({ createdAt: -1 })
-    .limit(1);
-
-  if (response.length === 0 || otp != response[0].otp) {
-    throw new ApiError(409, "Invalid OTP");
   }
 
   const user = await User.create({
@@ -90,8 +83,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
 
 const getUserDetails = asyncHandler(async (req, res) => {
   const { identifier } = req.body;
-  console.log(typeof identifier);
-  console.log(identifier);
+
   if (!identifier) {
     throw new ApiError(400, "Contact number or email is required");
   }
@@ -100,7 +92,6 @@ const getUserDetails = asyncHandler(async (req, res) => {
       ? { email: identifier }
       : { contactNumber: identifier }
   ).select("email contactNumber");
-  console.log(user);
 
   if (!user) {
     throw new ApiError(404, "User not found");
@@ -290,19 +281,28 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Password changed successfully."));
 });
 
-const forgotPasswordChange = asyncHandler(async (req, res) => {
-  const { identifier, password, confirmPassword, otp } = req.body;
-  if (!identifier || !password || !confirmPassword || otp) {
+const resetPassword = asyncHandler(async (req, res) => {
+  const { identifier, password, confirmPassword } = req.body;
+  if (!identifier || !password || !confirmPassword) {
     throw new ApiError(400, "All fields are required.");
   }
+  if (password !== confirmPassword) {
+    throw new ApiError(400, "Both passwords should be same");
+  }
+
   const user = await User.findOne(
-    identifier.includes("@")
+    String(identifier).includes("@")
       ? { email: identifier }
       : { contactNumber: identifier }
   );
   if (!user) {
     throw new ApiError(404, "User not found");
   }
+  user.password = password;
+  await user.save({ validateBeforeSave: false });
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Password changed successfully."));
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
@@ -414,6 +414,10 @@ const sendOtp = asyncHandler(async (req, res) => {
   }
 });
 
+const verifyUserOtp = asyncHandler(async (req, res) => {
+  return res.status(200).json(new ApiResponse(200, {}, "OTP verified"));
+});
+
 export {
   registerUser,
   getUserDetails,
@@ -421,9 +425,11 @@ export {
   loginUser,
   logoutUser,
   refreshAccessToken,
+  resetPassword,
   changeCurrentPassword,
   getCurrentUser,
   updateFullName,
   getUserWatchHistory,
   sendOtp,
+  verifyUserOtp,
 };

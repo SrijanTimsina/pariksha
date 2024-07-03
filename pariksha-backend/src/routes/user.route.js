@@ -11,9 +11,11 @@ import {
   getCurrentUser,
   sendOtp,
   getUserDetails,
+  verifyUserOtp,
+  resetPassword,
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
-import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { verifyJWT, verifyOtp } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
@@ -39,11 +41,13 @@ router.route("/login").post(loginUser);
 router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/refresh-token").post(refreshAccessToken);
 router.route("/current-user").get(verifyJWT, getCurrentUser);
+router.route("/reset-password").patch(verifyOtp, resetPassword);
 router.route("/change-password").patch(verifyJWT, changeCurrentPassword);
 router.route("/update-fullName").patch(verifyJWT, updateFullName);
 
 router.route("/watch-history").get(verifyJWT, getUserWatchHistory);
 
 router.route("/sendOtp").post(sendOtp);
+router.route("/verifyOtp").post(verifyOtp, verifyUserOtp);
 
 export default router;

@@ -100,14 +100,14 @@ const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
       <h2 className="mb-6 text-xl font-semibold min-[900px]:-mt-14">
         {currentSubject.name}
       </h2>
-      <div className="m-auto w-full max-w-[400px]">
+      <div className="m-auto w-full max-w-[600px]">
         {currentQuestions.map((question, idx) => (
           <div key={idx} className="w-full">
             <div className="mb-2 flex gap-6">
               <p className="text-md mt-2 font-bold">
                 {globalQuestionIndex + startIdx + idx + 1}.
               </p>
-              <p className="leading-10">{renderMath(question.questionText)}</p>
+              <p className="leading-8">{renderMath(question.questionText)}</p>
               {question.image ? (
                 <Image
                   src={question.image}

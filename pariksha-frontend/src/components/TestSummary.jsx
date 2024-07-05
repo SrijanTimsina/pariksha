@@ -6,7 +6,7 @@ import FullPageAd from "./FullPageAd";
 export default function TestSummary({ title, data, review }) {
   return (
     <>
-      <FullPageAd />
+      {/* <FullPageAd /> */}
       <div className="mt-8">
         <div className="content-container">
           <p className="text-2xl font-semibold">{title}</p>
@@ -62,11 +62,11 @@ export default function TestSummary({ title, data, review }) {
               />
             </div>
           </div>
-          <PrimaryButton
+          {/* <PrimaryButton
             text={"Review Your Answers"}
             onClick={review}
             className={"mt-8 w-max rounded-xl px-16 py-3"}
-          />
+          /> */}
         </div>
       </div>
     </>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useMutation } from "@tanstack/react-query";
@@ -14,10 +14,11 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import Input from "./Input";
-import { redirect } from "next/navigation";
+
 import { FaAngleLeft } from "react-icons/fa";
 import { HStack, PinInput, PinInputField } from "@chakra-ui/react";
 import { useAuth } from "@/utils/AuthContext";
+import Countdown from "react-countdown";
 
 const loginDetailsSchema = z.object({
   contactNumber: z.string().regex(/^\d{10}$/, "Invalid phone number."),
@@ -43,6 +44,8 @@ const SignupForm = () => {
   const [abroadPlans, setAbroadPlans] = useState(null);
   const [priority, setPriority] = useState(null);
   const [otpError, setOtpError] = useState(false);
+  const [countdownRunning, setCountdownRunning] = useState(true);
+  const [userContactNumber, setUserContactNumber] = useState(null);
   const { login } = useAuth();
 
   const {
@@ -135,6 +138,7 @@ const SignupForm = () => {
     event.preventDefault();
     setLoginDetails((prev) => ({ ...prev, ...data }));
     sendUserOtp.mutate(loginDetails.contactNumber);
+    setUserContactNumber(loginDetails.contactNumber);
     setFormStage("otp");
   };
 
@@ -368,9 +372,32 @@ const SignupForm = () => {
             )}
             <p className="mb-10 mt-8 text-sm text-gray-500">
               Didn't receive the OTP? &nbsp;
-              <button className="font-semibold text-primary underline">
-                Resend
-              </button>
+              {countdownRunning && (
+                <>
+                  Resend in &nbsp;
+                  <Countdown
+                    date={Date.now() + 10000 * 6}
+                    onComplete={() => setCountdownRunning(false)}
+                    renderer={({ minutes, seconds }) => (
+                      <span className="font-semibold text-gray-500 underline">
+                        {minutes <= 9 ? `0${minutes}` : minutes}:
+                        {seconds <= 9 ? `0${seconds}` : seconds}
+                      </span>
+                    )}
+                  />
+                </>
+              )}
+              {!countdownRunning && (
+                <button
+                  className="font-semibold text-primary underline"
+                  onClick={() => {
+                    setCountdownRunning(true);
+                    sendUserOtp.mutate(userContactNumber);
+                  }}
+                >
+                  Resend
+                </button>
+              )}
             </p>
           </div>
         )}

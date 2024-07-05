@@ -14,7 +14,7 @@ export default function Video({ url, videoId }) {
 
   return (
     <div className="relative">
-      {!adPlayed && (
+      {/* {!adPlayed && (
         <div
           className="adVideoContainer absolute inset-0"
           onClick={() => {
@@ -40,7 +40,7 @@ export default function Video({ url, videoId }) {
             }}
           />
         </div>
-      )}
+      )} */}
 
       <ReactPlayer
         ref={playerRef}

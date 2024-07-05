@@ -11,29 +11,25 @@ export default function CourseDrawer({ subjects, courseTitle }) {
           key={index}
           className="rounded-lg border-2 border-gray-dark shadow"
         >
-          <Link href={`/${courseTitle}/videos/${subject.title}`} className=" ">
+          <Link href={`/${courseTitle}/videos/${subject.title}`}>
             <Image
               src={`/previewImages/${subject.title}.jpg`}
               height={180}
               width={320}
               alt={subject.title}
-              className="rounded-t-lg"
+              className="rounded-t-md"
               style={{ width: "320px", aspectRatio: "16/10" }}
             />
             <div className="min-w-[280px] p-3">
               <p className="mb-2 mt-1 text-lg font-semibold">{subject.title}</p>
-              <div className="flex gap-2 pb-2 text-sm">
-                <span className="flex items-center gap-1 border-r-2 border-solid border-primary pr-3">
+              <div className="flex gap-4 pb-2 text-sm">
+                <span className="flex items-center gap-1 border-r-2 border-solid border-primary pr-4">
                   <PiVideo size={18} color="#03747E" />
-                  20
+                  {subject.videoCount}
                 </span>
-                <span className="flex items-center gap-1 border-r-2 border-solid border-primary pr-3">
+                <span className="flex items-center gap-1 pr-3">
                   <PiClock size={18} color="#03747E" />
-                  12h
-                </span>
-                <span className="flex items-center gap-1">
-                  <PiVideo size={18} color="#03747E" />
-                  20Lectures
+                  {subject.duration}
                 </span>
               </div>
             </div>

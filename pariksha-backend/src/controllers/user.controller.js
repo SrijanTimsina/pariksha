@@ -6,7 +6,6 @@ import { Otp } from "../models/otp.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import otpGenerator from "otp-generator";
 import jwt from "jsonwebtoken";
-import { type } from "os";
 
 const accessTokenOptions = {
   httpOnly: true,

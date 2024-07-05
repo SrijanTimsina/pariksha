@@ -30,6 +30,7 @@ import subjectRouter from "./routes/subject.route.js";
 import sectionRouter from "./routes/section.route.js";
 import videoRouter from "./routes/video.route.js";
 import questionSetRouter from "./routes/questionset.route.js";
+import formSubmissionRouter from "./routes/formSubmission.route.js";
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/course", courseRouter);
@@ -37,5 +38,6 @@ app.use("/api/v1/subject", subjectRouter);
 app.use("/api/v1/section", sectionRouter);
 app.use("/api/v1/video", videoRouter);
 app.use("/api/v1/questionset", questionSetRouter);
+app.use("/api/v1/formSubmission", formSubmissionRouter);
 
 export { app };

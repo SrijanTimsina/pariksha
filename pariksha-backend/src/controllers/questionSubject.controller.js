@@ -40,6 +40,7 @@ const createQuestionSubject = async ({ subject }) => {
 
       const createdQuestion = await Question.create({
         questionText: question.text,
+        image: question.image,
         answers: shuffledAnswers,
         correctAnswer: correctAnswer,
         questionSubject: createdQuestionSubject._id,

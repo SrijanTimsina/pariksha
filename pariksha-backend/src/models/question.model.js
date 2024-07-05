@@ -1,6 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 
 const answerSchema = new Schema({
+  type: {
+    type: String,
+    enum: ["text", "image"],
+    default: "text",
+  },
   text: { type: String, required: true },
 });
 
@@ -10,6 +15,7 @@ const questionSchema = new Schema(
       type: String,
       required: true,
     },
+    image: { type: String },
     answers: [answerSchema],
     correctAnswer: {
       type: Schema.Types.ObjectId,

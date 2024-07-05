@@ -108,6 +108,14 @@ const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
                 {globalQuestionIndex + startIdx + idx + 1}.
               </p>
               <p className="leading-10">{renderMath(question.questionText)}</p>
+              {question.image ? (
+                <Image
+                  src={question.image}
+                  alt={question.image}
+                  width={100}
+                  height={100}
+                />
+              ) : null}
             </div>
             <div className="pl-2">
               <RadioGroup
@@ -117,7 +125,16 @@ const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
                 <Stack direction="column" spacing={4}>
                   {question.answers.map((answer, idx) => (
                     <Radio value={answer._id} key={idx} spacing={6}>
-                      {renderMath(answer.text)}
+                      {answer.type === "image" ? (
+                        <Image
+                          src={answer.text}
+                          alt={answer.text}
+                          width={100}
+                          height={100}
+                        />
+                      ) : (
+                        renderMath(answer.text)
+                      )}
                     </Radio>
                   ))}
                 </Stack>

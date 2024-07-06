@@ -3,7 +3,7 @@
 import SignupForm from "@/components/SignupForm";
 import { useAuth } from "@/utils/AuthContext";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 export default function page() {
   const router = useRouter();
@@ -17,7 +17,9 @@ export default function page() {
 
   return (
     <div className="content-container">
-      <SignupForm />
+      <Suspense>
+        <SignupForm />
+      </Suspense>
     </div>
   );
 }

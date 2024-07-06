@@ -4,6 +4,7 @@ import LoginForm from "@/components/LoginForm";
 import { useAuth } from "@/utils/AuthContext";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { Suspense } from "react";
 
 export default function page() {
   const router = useRouter();
@@ -20,7 +21,9 @@ export default function page() {
     <>
       {!user && (
         <div className="content-container">
-          <LoginForm redirect={redirect} />
+          <Suspense>
+            <LoginForm redirect={redirect} />
+          </Suspense>
         </div>
       )}
     </>

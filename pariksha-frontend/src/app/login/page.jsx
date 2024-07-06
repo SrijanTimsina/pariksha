@@ -1,31 +1,17 @@
 "use client";
 
 import LoginForm from "@/components/LoginForm";
-import { useAuth } from "@/utils/AuthContext";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+
 import { Suspense } from "react";
 
 export default function page() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const { user } = useAuth();
-  const redirect = searchParams.get("redirect") || "/";
-
-  useEffect(() => {
-    if (user) router.replace(`${redirect}`);
-  }, [user]);
-
   return (
     <>
-      {!user && (
-        <div className="content-container">
-          <Suspense>
-            <LoginForm redirect={redirect} />
-          </Suspense>
-        </div>
-      )}
+      <div className="content-container">
+        <Suspense>
+          <LoginForm />
+        </Suspense>
+      </div>
     </>
   );
 }

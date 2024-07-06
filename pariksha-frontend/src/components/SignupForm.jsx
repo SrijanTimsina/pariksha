@@ -17,6 +17,7 @@ import Input from "./Input";
 
 import { FaAngleLeft } from "react-icons/fa";
 import { HStack, PinInput, PinInputField } from "@chakra-ui/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/utils/AuthContext";
 import Countdown from "react-countdown";
 
@@ -46,7 +47,15 @@ const SignupForm = () => {
   const [otpError, setOtpError] = useState(false);
   const [countdownRunning, setCountdownRunning] = useState(true);
   const [userContactNumber, setUserContactNumber] = useState(null);
-  const { login } = useAuth();
+  const { user, login } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const redirect = searchParams.get("redirect") || "/";
+
+  useEffect(() => {
+    if (user) router.replace(`${redirect}`);
+  }, [user]);
 
   const {
     register: loginDetailsRegister,

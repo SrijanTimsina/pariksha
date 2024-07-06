@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Spinner from "@/utils/Spinner";
 import { useAuth } from "@/utils/AuthContext";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const loginSchema = z.object({
   identifier: z.union([
@@ -19,8 +20,16 @@ const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
-const LoginForm = ({ redirect }) => {
-  const { login } = useAuth();
+const LoginForm = () => {
+  const { login, user } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/";
+
+  useEffect(() => {
+    if (user) router.replace(`${redirect}`);
+  }, [user]);
+
   const {
     register,
     handleSubmit,

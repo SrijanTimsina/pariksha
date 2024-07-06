@@ -8,7 +8,7 @@ import { updateUserWatchHistory } from "@/hooks/videos";
 
 const AuthContext = createContext();
 
-export function AuthProvider({ accessToken, refreshToken, children }) {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [watchHistory, setWatchHistory] = useState([]);
   const [subjectCurrentWatching, setSubjectCurrentWatching] = useState({});

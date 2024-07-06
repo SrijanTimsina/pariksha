@@ -44,7 +44,6 @@ const registerUser = asyncHandler(async (req, res, next) => {
     password,
     studyLocation,
     abroadPlans,
-    priority,
   } = req.body;
 
   if (
@@ -68,7 +67,6 @@ const registerUser = asyncHandler(async (req, res, next) => {
     password,
     studyLocation,
     abroadPlans,
-    priority,
   });
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"

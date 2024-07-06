@@ -1,6 +1,7 @@
 import { QuestionSet } from "../models/questionset.model.js";
 import { QuestionScores } from "../models/questionscores.model.js";
 import { Course } from "../models/course.model.js";
+import { User } from "../models/user.model.js";
 
 import { ApiError } from "../utils/ApiError.js";
 
@@ -123,29 +124,43 @@ const submitTestAnswers = asyncHandler(async (req, res) => {
       subjectTotalMarks: subjectQuestionCount,
     };
   });
+  let updatedQuestionSet, updatedQuestionScore;
 
-  const updatedQuestionSet = await QuestionSet.findByIdAndUpdate(
-    id,
-    {
-      $inc: { submissionCount: 1 },
-      $set: {
-        avgScore:
-          (questionSet.avgScore * questionSet.submissionCount + userScore) /
-          (questionSet.submissionCount + 1),
+  if (Object.keys(answers).length > 20) {
+    updatedQuestionSet = await QuestionSet.findByIdAndUpdate(
+      id,
+      {
+        $inc: { submissionCount: 1 },
+        $set: {
+          avgScore:
+            (questionSet.avgScore * questionSet.submissionCount + userScore) /
+            (questionSet.submissionCount + 1),
+        },
       },
-    },
-    { new: true }
-  );
-  const updatedQuestionScore = await QuestionScores.findOneAndUpdate(
-    { questionSetId: id },
-    { $push: { scores: { $each: [userScore], $sort: 1 } } },
-    { new: true }
-  );
+      { new: true }
+    );
+    updatedQuestionScore = await QuestionScores.findOneAndUpdate(
+      { questionSetId: id },
+      { $push: { scores: { $each: [userScore], $sort: 1 } } },
+      { new: true }
+    );
+  } else {
+    updatedQuestionSet = await QuestionSet.findById(id);
+    updatedQuestionScore = await QuestionScores.findOne({ questionSetId: id });
+  }
 
   const userRank = await updatedQuestionScore.findRank(userScore);
 
   const percentile =
     100 - (userRank * 100) / updatedQuestionSet.submissionCount;
+
+  await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set: { [`testScores.${id}`]: userScore },
+    },
+    { upsert: true }
+  );
 
   return res.status(200).json(
     new ApiResponse(
@@ -158,7 +173,7 @@ const submitTestAnswers = asyncHandler(async (req, res) => {
         percentile: parseFloat(percentile.toFixed(2)),
         userRank: `${userRank} / ${updatedQuestionSet.submissionCount}`,
       },
-      `Test results submitted successfully. Score: ' '`
+      `Test results submitted successfully`
     )
   );
 });

@@ -8,7 +8,7 @@ import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const createSubject = asyncHandler(async (req, res) => {
-  const { title, courseId } = req.body;
+  const { title, courseId, videoCount, duration } = req.body;
 
   if ([title, courseId].some((field) => field?.trim() === "")) {
     throw new ApiError(400, "All fields are required.");
@@ -16,6 +16,8 @@ const createSubject = asyncHandler(async (req, res) => {
 
   const subject = await Subject.create({
     title,
+    videoCount,
+    duration,
   });
   const createdSubject = await Subject.findById(subject._id);
   if (!createdSubject) {

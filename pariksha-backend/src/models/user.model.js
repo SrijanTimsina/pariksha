@@ -27,9 +27,9 @@ const userSchema = new Schema(
       enum: ["Kathmandu", "Chitwan", "Rupandehi", "Eastern_Region", "Others"],
     },
     abroadPlans: { type: Boolean, required: true },
-    priority: { type: String, enum: ["CSIT", "BBA", "Others"], required: true },
     enrolledCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
     watchHistory: { type: Array, default: [] },
+    testScores: { type: Object, default: {} },
     subjectCurrentWatching: { type: Object, default: {} },
     userType: {
       type: String,

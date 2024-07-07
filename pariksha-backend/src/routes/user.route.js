@@ -32,7 +32,7 @@ const router = Router();
 //   ]),
 //   registerUser
 // );
-router.route("/register").post(registerUser, loginUser);
+router.route("/register").post(verifyOtp, registerUser);
 router.route("/check").post(checkUserExists);
 router.route("/details").post(getUserDetails);
 router.route("/login").post(loginUser);

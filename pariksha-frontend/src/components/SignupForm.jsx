@@ -22,7 +22,11 @@ import { useAuth } from "@/utils/AuthContext";
 import Countdown from "react-countdown";
 
 const loginDetailsSchema = z.object({
-  contactNumber: z.string().regex(/^\d{10}$/, "Invalid phone number."),
+  contactNumber: z
+    .string()
+    .refine((value) => /^98\d{8}$/.test(value) || /^97\d{8}$/.test(value), {
+      message: "Invalid Phone Number.",
+    }),
   email: z.string().email("Invalid email address."),
   fullName: z.string().min(2, "Full name must be at least 2 characters long"),
   password: z.string().min(6, "Password must be at least 6 characters long"),
@@ -35,7 +39,6 @@ const personalDetailsSchema = z.object({
   abroadPlans: z.boolean().refine((value) => typeof value === "boolean", {
     message: "Value must be a boolean",
   }),
-  priority: z.enum(["CSIT", "BBA", "Others"], "Invalid study location"),
 });
 
 const SignupForm = () => {
@@ -43,7 +46,6 @@ const SignupForm = () => {
   const [loginDetails, setLoginDetails] = useState({});
   const [studyLocation, setStudyLocation] = useState(null);
   const [abroadPlans, setAbroadPlans] = useState(null);
-  const [priority, setPriority] = useState(null);
   const [otpError, setOtpError] = useState(false);
   const [countdownRunning, setCountdownRunning] = useState(true);
   const [userContactNumber, setUserContactNumber] = useState(null);
@@ -83,11 +85,11 @@ const SignupForm = () => {
   useEffect(() => {
     setPersonalDetailsValue("abroadPlans", abroadPlans);
   }, [abroadPlans]);
-  useEffect(() => {
-    if (priority) {
-      setPersonalDetailsValue("priority", priority);
-    }
-  }, [priority]);
+  // useEffect(() => {
+  //   if (priority) {
+  //     setPersonalDetailsValue("priority", priority);
+  //   }
+  // }, [priority]);
 
   const userCheck = useMutation({
     mutationFn: (formData) => checkUserDetails(formData),
@@ -300,7 +302,7 @@ const SignupForm = () => {
                 )}
               </div>
             </div>
-            <div className="mb-4 flex w-full flex-col">
+            {/* <div className="mb-4 flex w-full flex-col">
               <label
                 htmlFor="priority"
                 className="mb-1 pl-2 text-xs text-gray-500"
@@ -332,7 +334,7 @@ const SignupForm = () => {
                   </span>
                 )}
               </div>
-            </div>
+            </div> */}
             <div className="flex w-full gap-4">
               <button
                 type="submit"

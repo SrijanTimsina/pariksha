@@ -29,12 +29,10 @@ export default function RootLayout({ children }) {
           src="https://www.googletagmanager.com/gtag/js?id=G-BLFCZZLHQ1"
         ></script>
         <script id="google-analytics">
-          {` 
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-BLFCZZLHQ1');
+          {`
+          window.dataLayer = window.dataLayer || [];
+           function gtag(){dataLayer.push(arguments)}
+          gtag("js", new Date()); gtag("config", "G-BLFCZZLHQ1");
           `}
         </script>
       </head>

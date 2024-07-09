@@ -245,12 +245,12 @@ const SignupForm = () => {
                 {...personalDetailsRegister("studyLocation")}
                 className="border-b-2 pb-1 outline-none"
               />
-              <div className="mt-2 grid grid-cols-3 gap-4">
+              <div className="mt-2 grid grid-cols-3 gap-4 max-[420px]:grid-cols-2">
                 {studyLocationOptions.map((option, index) => (
                   <button
                     type="button"
                     key={index}
-                    className={`whitespace-nowrap border border-gray-semiDark px-2 py-2 text-sm ${studyLocation === option.value ? "bg-primary text-white" : ""}`}
+                    className={`whitespace-nowrap border border-gray-semiDark px-2 py-2 text-center text-sm ${studyLocation === option.value ? "bg-primary text-white" : ""}`}
                     onClick={() => setStudyLocation(option.value)}
                   >
                     {option.label}

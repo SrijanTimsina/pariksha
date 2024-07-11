@@ -7,17 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "FREE CSIT ENTRANCE PREPARATION - PARIKSHA",
-  manifest: "/manifest.json",
   description: "Join Pariksha to get free CSIT entrance preparation.",
-  icons: {
-    icon: "/imagesPWA/icons/icon-192x192.png",
-    shortcut: "/imagesPWA/icons/icon-192x192.png",
-    apple: "/imagesPWA/icons/icon-192x192.png",
-    other: {
-      rel: "apple-touch-icon-precomposed",
-      url: "/imagesPWA/icons/icon-192x192.png",
-    },
-  },
 };
 
 export default function RootLayout({ children }) {

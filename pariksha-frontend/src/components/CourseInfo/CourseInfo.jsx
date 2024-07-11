@@ -51,45 +51,90 @@ function CourseInfo({ link }) {
             </div>
             <div className="mt-10 bg-white">
               <h1 className="mb-6 text-2xl font-semibold">Past Questions</h1>
-              <div className="scrollContainer flex w-full gap-6 overflow-auto min-[740px]:flex-wrap">
-                {courseData.questionSets.map((questionSet, index) => (
-                  <div
-                    key={index}
-                    className="rounded-lg border-2 border-gray-dark shadow"
-                  >
-                    <Link href={`/${link}/tests/${questionSet.link}`}>
-                      <Image
-                        src={`/previewImages/${questionSet.number}.jpg`}
-                        height={180}
-                        width={320}
-                        alt={questionSet.number}
-                        className="rounded-t-md"
-                        style={{ width: "320px", aspectRatio: "16/10" }}
-                      />
-                      <div className="min-w-[280px] p-3">
-                        <p className="text-md mb-2 mt-1 font-semibold">
-                          {questionSet.number}
-                        </p>
-                        <div className="flex gap-4 text-sm">
-                          <p className="border-r-2 border-solid border-primary pr-4 text-gray-600">
-                            Score :{" "}
-                            <span className="font-semibold">
-                              {user?.testScores?.[questionSet._id]
-                                ? user.testScores[questionSet._id]
-                                : "_"}{" "}
-                            </span>
+              <div className="scrollContainer flex w-full gap-6 overflow-auto">
+                {courseData.questionSets
+                  .filter((questionSet) => questionSet.setType === "past")
+                  .map((questionSet, index) => (
+                    <div
+                      key={index}
+                      className="rounded-lg border-2 border-gray-dark shadow"
+                    >
+                      <Link href={`/${link}/tests/${questionSet.link}`}>
+                        <Image
+                          src={`/previewImages/testsPreview/test-${index}.png`}
+                          height={180}
+                          width={320}
+                          alt={questionSet.number}
+                          className="rounded-t-md bg-gray-light"
+                          style={{ width: "320px", aspectRatio: "16/10" }}
+                        />
+                        <div className="min-w-[280px] border-t-2 border-gray-dark p-3">
+                          <p className="text-md mb-2 mt-1 text-xl font-bold">
+                            {questionSet.number}
                           </p>
-                          <p className="text-gray-600">
-                            Avg Score :{" "}
-                            <span className="font-semibold">
-                              {parseFloat(questionSet.avgScore.toFixed(2))}{" "}
-                            </span>
-                          </p>
+                          <div className="flex gap-4 text-sm">
+                            <p className="border-r-2 border-solid border-primary pr-4 text-gray-600">
+                              Score :{" "}
+                              <span className="font-semibold">
+                                {user?.testScores?.[questionSet._id]
+                                  ? user.testScores[questionSet._id]
+                                  : "_"}{" "}
+                              </span>
+                            </p>
+                            <p className="text-gray-600">
+                              Avg Score :{" "}
+                              <span className="font-semibold">
+                                {parseFloat(questionSet.avgScore.toFixed(2))}{" "}
+                              </span>
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  </div>
-                ))}
+                      </Link>
+                    </div>
+                  ))}
+              </div>
+              <h1 className="mb-6 mt-10 text-2xl font-semibold">Models Sets</h1>
+              <div className="scrollContainer flex w-full gap-6 overflow-auto">
+                {courseData.questionSets
+                  .filter((questionSet) => questionSet.setType === "mock")
+                  .map((questionSet, index) => (
+                    <div
+                      key={index}
+                      className="rounded-lg border-2 border-gray-dark shadow"
+                    >
+                      <Link href={`/${link}/tests/${questionSet.link}`}>
+                        <Image
+                          src={`/previewImages/testsPreview/test-${index}.png`}
+                          height={180}
+                          width={320}
+                          alt={questionSet.number}
+                          className="rounded-t-md bg-gray-light"
+                          style={{ width: "320px", aspectRatio: "16/10" }}
+                        />
+                        <div className="min-w-[280px] border-t-2 border-gray-dark p-3">
+                          <p className="text-md mb-2 mt-1 text-xl font-bold">
+                            {questionSet.number}
+                          </p>
+                          <div className="flex gap-4 text-sm">
+                            <p className="border-r-2 border-solid border-primary pr-4 text-gray-600">
+                              Score :{" "}
+                              <span className="font-semibold">
+                                {user?.testScores?.[questionSet._id]
+                                  ? user.testScores[questionSet._id]
+                                  : "_"}{" "}
+                              </span>
+                            </p>
+                            <p className="text-gray-600">
+                              Avg Score :{" "}
+                              <span className="font-semibold">
+                                {parseFloat(questionSet.avgScore.toFixed(2))}{" "}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>

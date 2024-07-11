@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/utils/providers";
-import Script from "next/script";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,24 +23,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-BLFCZZLHQ1"
-        ></script>
-        <script id="google-analytics">
-          {`
-          window.dataLayer = window.dataLayer || [];
-           function gtag(){dataLayer.push(arguments)}
-          gtag("js", new Date()); gtag("config", "G-BLFCZZLHQ1");
-          `}
-        </script>
-      </head>
       <body className={inter.className}>
         <Providers>
           <div className="pb-8">{children}</div>
         </Providers>
       </body>
+      <GoogleAnalytics gaId="G-BLFCZZLHQ1" />
     </html>
   );
 }

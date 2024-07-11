@@ -1,5 +1,6 @@
 import PrimaryButton from "@/components/PrimaryButton";
 import FullPageAd from "./FullPageAd";
+import { useAuth } from "@/utils/AuthContext";
 
 export default function TestDetails({
   title,
@@ -7,10 +8,16 @@ export default function TestDetails({
   questionsCount,
   totalMarks,
   time,
+  data,
 }) {
+  const { testHistory } = useAuth();
+  const currentTestHistory = testHistory.filter(
+    (test) => test.questionSetId === data._id
+  );
+
   return (
     <>
-      {/* <FullPageAd /> */}
+      <FullPageAd />
       <div className="mt-4 flex w-full items-center justify-center">
         <div className="border border-black p-8">
           <p className="text-lg font-semibold"> {title}</p>

@@ -7,11 +7,11 @@ import Spinner from "@/utils/Spinner";
 import { useAuth } from "@/utils/AuthContext";
 
 const defaultSubjectVideos = {
-  "csit-entrance-Maths": "66601aa37314e240c50009a1",
-  "csit-entrance-Mathematics": "66601aa37314e240c50009a1",
   "csit-entrance-Physics": "667e7d72b30ee779591c15d5",
-  "csit-entrance-Chemistry": "66601aa37314e240c50009a1",
+  "csit-entrance-Mathematics": "668b8e71db2a2df10ed79e24",
+  "csit-entrance-Maths": "668b8e71db2a2df10ed79e24",
   "csit-entrance-English": "667e8224b30ee779591c1639",
+  "csit-entrance-Chemistry": "66601aa37314e240c50009a1",
   "csit-entrance-Computer-Gk": "66601aa37314e240c50009a1",
 };
 

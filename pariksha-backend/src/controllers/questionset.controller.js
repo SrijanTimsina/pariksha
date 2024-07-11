@@ -10,6 +10,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
 import { createQuestionSubject } from "./questionSubject.controller.js";
 import { ObjectId } from "mongodb";
+import { SubmittedTests } from "../models/submittedtests.model.js";
 
 const createQuestionSet = asyncHandler(async (req, res) => {
   const { type } = req.params;
@@ -154,13 +155,19 @@ const submitTestAnswers = asyncHandler(async (req, res) => {
   const percentile =
     100 - (userRank * 100) / updatedQuestionSet.submissionCount;
 
-  await User.findByIdAndUpdate(
+  User.findByIdAndUpdate(
     req.user._id,
     {
       $set: { [`testScores.${id}`]: userScore },
     },
     { upsert: true }
   );
+
+  SubmittedTests.create({
+    questionSetId: id,
+    userId: req.user._id,
+    score: userScore,
+  });
 
   return res.status(200).json(
     new ApiResponse(

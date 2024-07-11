@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { Otp } from "../models/otp.model.js";
+import { SubmittedTests } from "../models/submittedtests.model.js";
 
 import { ApiResponse } from "../utils/ApiResponse.js";
 import otpGenerator from "otp-generator";
@@ -305,9 +306,20 @@ const resetPassword = asyncHandler(async (req, res) => {
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
+  const userSubmittedTests = await SubmittedTests.find({
+    userId: req.user._id,
+  });
+  console.log(userSubmittedTests);
+
   return res
     .status(200)
-    .json(new ApiResponse(200, req.user, "Current user fetched successfully"));
+    .json(
+      new ApiResponse(
+        200,
+        { user: req.user, testHistory: userSubmittedTests },
+        "Current user fetched successfully"
+      )
+    );
 });
 
 const updateFullName = asyncHandler(async (req, res) => {

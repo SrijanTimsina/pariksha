@@ -13,6 +13,8 @@ import TestNav from "@/components/TestNav";
 import TestAnswersReview from "@/components/TestAnswersReview";
 import withAuth from "@/utils/withAuth";
 import Image from "next/image";
+import Spinner from "@/utils/Spinner";
+import Link from "next/link";
 
 function page({ params }) {
   const testName = params.testname;
@@ -48,9 +50,13 @@ function page({ params }) {
   const handleSubmit = () => {
     submitAnswer();
   };
+  console.log(isSubmitting);
 
   return (
     <div>
+      {/* <Spinner /> */}
+      {isPending && <Spinner />}
+      {isSubmitting && <Spinner />}
       {testData && (
         <div className=" ">
           {testStatus === "not_started" && (
@@ -63,37 +69,80 @@ function page({ params }) {
               questionsCount={100}
               totalMarks={100}
               time={"2 Hours"}
+              data={testData}
             />
           )}
           {testStatus === "running" && (
             <div>
-              <div className="flex w-full flex-col items-center">
-                <Image src={"/150.png"} alt="up" width={1200} height={200} />
+              <div className="my-6 flex w-full flex-col items-center">
+                <Link
+                  href={`https://pariksha.solutions/new-summit-college`}
+                  target="_blank"
+                >
+                  <picture>
+                    <source
+                      media="(max-width: 800px)"
+                      srcset="/adImages/ad-200.webp"
+                    />
+                    <source
+                      media="(min-width: 800px)"
+                      srcSet="/adImages/ad-100.webp"
+                    />
+                    <Image
+                      src="/adImages/ad-100.webp"
+                      alt="New Summit College"
+                      height={100}
+                      width={1200}
+                    />
+                  </picture>
+                </Link>
               </div>
-              <TestNav
-                count={Object.keys(userSelectedAnswers).length}
-                title={testData?.title}
-                countdownDate={countdownDate}
-                handleSubmit={handleSubmit}
-                onTimerEnd={() => {
-                  toast({
-                    title: "Time's up.",
-                    description: "Your time is up. Please view your results",
-                    status: "info",
-                    duration: 9000,
-                    isClosable: true,
-                  });
+              <div className="m-auto w-full max-w-[1200px]">
+                <TestNav
+                  count={Object.keys(userSelectedAnswers).length}
+                  title={testData?.title}
+                  countdownDate={countdownDate}
+                  handleSubmit={handleSubmit}
+                  onTimerEnd={() => {
+                    toast({
+                      title: "Time's up.",
+                      description: "Your time is up. Please view your results",
+                      status: "info",
+                      duration: 9000,
+                      isClosable: true,
+                    });
 
-                  handleSubmit();
-                }}
-              />
+                    handleSubmit();
+                  }}
+                />
 
-              <TestQuestions
-                subjects={testData.subjects}
-                setUserSelectedAnswers={setUserSelectedAnswers}
-              />
-              <div className="mt-4 flex w-full flex-col items-center">
-                <Image src={"/150.png"} alt="up" width={1200} height={200} />
+                <TestQuestions
+                  subjects={testData.subjects}
+                  setUserSelectedAnswers={setUserSelectedAnswers}
+                />
+              </div>
+              <div className="m-auto mt-4 flex w-full max-w-[1200px] flex-col items-center border-t-2 border-gray-dark pt-8">
+                <Link
+                  href={`https://pariksha.solutions/new-summit-college`}
+                  target="_blank"
+                >
+                  <picture>
+                    <source
+                      media="(max-width: 800px)"
+                      srcset="/adImages/ad-200.webp"
+                    />
+                    <source
+                      media="(min-width: 800px)"
+                      srcSet="/adImages/ad-100.webp"
+                    />
+                    <Image
+                      src="/adImages/ad-100.webp"
+                      alt="New Summit College"
+                      height={100}
+                      width={1200}
+                    />
+                  </picture>
+                </Link>
               </div>
             </div>
           )}

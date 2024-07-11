@@ -310,7 +310,7 @@ const getCurrentUser = asyncHandler(async (req, res) => {
   //   userId: req.user._id,
   // });
   // console.log(userSubmittedTests);
-
+  console.log("usercontroller", req.user);
   return res
     .status(200)
     .json(new ApiResponse(200, req.user, "Current user fetched successfully"));

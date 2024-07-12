@@ -10,10 +10,10 @@ export default function TestDetails({
   time,
   data,
 }) {
-  // const { testHistory } = useAuth();
-  // const currentTestHistory = testHistory.filter(
-  //   (test) => test.questionSetId === data._id
-  // );
+  const { testHistory } = useAuth();
+  const currentTestHistory = testHistory.filter(
+    (test) => test.questionSetId === data._id
+  );
 
   return (
     <>

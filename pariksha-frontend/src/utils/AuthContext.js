@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [watchHistory, setWatchHistory] = useState([]);
   const [subjectCurrentWatching, setSubjectCurrentWatching] = useState({});
-  // const [testHistory, setTestHistory] = useState([]);
+  const [testHistory, setTestHistory] = useState([]);
   const queryClient = useQueryClient();
 
   const { data, isPending, isError } = useQuery({
@@ -30,10 +30,10 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (data) {
-      setUser(data);
-      setSubjectCurrentWatching(data.subjectCurrentWatching);
-      setWatchHistory(data.watchHistory);
-      // setTestHistory(data.testHistory);
+      setUser(data.user);
+      setSubjectCurrentWatching(data.user.subjectCurrentWatching);
+      setWatchHistory(data.user.watchHistory);
+      setTestHistory(data.testHistory);
     }
   }, [data]);
 
@@ -85,6 +85,7 @@ export function AuthProvider({ children }) {
         changeSubjectCurrentWatching,
         removeFromWatchHistory,
         addToWatchHistory,
+        testHistory,
         login,
         logout,
       }}

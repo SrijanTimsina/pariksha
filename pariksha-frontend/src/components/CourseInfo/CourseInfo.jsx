@@ -66,7 +66,7 @@ function CourseInfo({ link }) {
                           width={320}
                           alt={questionSet.number}
                           className="rounded-t-md bg-gray-light"
-                          style={{ width: "320px", aspectRatio: "16/10" }}
+                          style={{ width: "280px", aspectRatio: "16/10" }}
                         />
                         <div className="min-w-[280px] border-t-2 border-gray-dark p-3">
                           <p className="text-md mb-2 mt-1 text-xl font-bold">
@@ -109,7 +109,7 @@ function CourseInfo({ link }) {
                           width={320}
                           alt={questionSet.number}
                           className="rounded-t-md bg-gray-light"
-                          style={{ width: "320px", aspectRatio: "16/10" }}
+                          style={{ width: "280px", aspectRatio: "16/10" }}
                         />
                         <div className="min-w-[280px] border-t-2 border-gray-dark p-3">
                           <p className="text-md mb-2 mt-1 text-xl font-bold">

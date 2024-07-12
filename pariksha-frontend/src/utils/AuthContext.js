@@ -20,6 +20,8 @@ export function AuthProvider({ children }) {
     queryFn: () => getCurrentUser(),
     refetchOnWindowFocus: false,
     retry: false,
+    cacheTime: 0,
+    staleTime: 0,
   });
   const updateUserWatching = useMutation({
     mutationFn: (data) => updateUserSubjectWatching(data),

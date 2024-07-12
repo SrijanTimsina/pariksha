@@ -21,7 +21,7 @@ export default function CourseDrawer({ subjects, courseTitle }) {
                 alt={subject.title}
                 className="rounded-t-md bg-gray-light"
                 style={{
-                  width: "320px",
+                  width: "280px",
                   aspectRatio: "16/10",
                 }}
               />

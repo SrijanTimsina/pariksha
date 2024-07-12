@@ -25,7 +25,7 @@ function CourseInfo({ link }) {
     <div>
       {courseData && (
         <>
-          <div className="courseInfo">
+          {/* <div className="courseInfo">
             <div className="bg-primaryDark text-white">
               <div className="content-container py-8 min-[600px]:py-14 min-[1024px]:py-20">
                 <div className="flex justify-between gap-4 max-[1024px]:flex-col min-[1024px]:gap-10">
@@ -43,7 +43,7 @@ function CourseInfo({ link }) {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="content-container">
             <div className="mt-10 w-full">
               <h1 className="mb-4 text-2xl font-semibold">Course Content</h1>

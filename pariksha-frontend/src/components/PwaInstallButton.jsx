@@ -49,8 +49,7 @@ const PwaInstallButton = () => {
     checkInstalled();
   }, []);
 
-  const onClick = (evt) => {
-    evt.preventDefault();
+  const onClick = () => {
     if (!promptInstall) {
       return;
     }

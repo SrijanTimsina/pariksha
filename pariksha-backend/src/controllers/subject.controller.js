@@ -79,9 +79,10 @@ const updateUserSubjectVideo = asyncHandler(async (req, res) => {
     },
     { new: true }
   );
+
   return res
     .status(200)
-    .json(new ApiResponse(200, user, "User subject watching updated."));
+    .json(new ApiResponse(200, {}, "User subject watching updated."));
 });
 
 export { createSubject, getSubjectInfo, updateUserSubjectVideo };

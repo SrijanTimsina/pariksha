@@ -24,7 +24,7 @@ export function Providers({ children }) {
     <ChakraProvider>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <ReactQueryDevtools />
+          {/* <ReactQueryDevtools /> */}
           {children}
         </AuthProvider>
       </QueryClientProvider>

@@ -50,7 +50,6 @@ function page({ params }) {
   const handleSubmit = () => {
     submitAnswer();
   };
-  console.log(isSubmitting);
 
   return (
     <div>
@@ -82,7 +81,7 @@ function page({ params }) {
                   <picture>
                     <source
                       media="(max-width: 800px)"
-                      srcset="/adImages/ad-200.webp"
+                      srcSet="/adImages/ad-200.webp"
                     />
                     <source
                       media="(min-width: 800px)"
@@ -129,7 +128,7 @@ function page({ params }) {
                   <picture>
                     <source
                       media="(max-width: 800px)"
-                      srcset="/adImages/ad-200.webp"
+                      srcSet="/adImages/ad-200.webp"
                     />
                     <source
                       media="(min-width: 800px)"

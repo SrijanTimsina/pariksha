@@ -67,8 +67,6 @@ export default function Drawer({
         };
       }
     }
-
-    throw new Error("Video with the provided _id not found in any section.");
   };
 
   useEffect(() => {

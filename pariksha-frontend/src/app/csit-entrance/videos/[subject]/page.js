@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import withAuth from "@/utils/withAuth";
-import { useQuery } from "@tanstack/react-query";
+
 import Spinner from "@/utils/Spinner";
 import { useAuth } from "@/utils/AuthContext";
 
@@ -11,7 +11,7 @@ const defaultSubjectVideos = {
   "csit-entrance-Mathematics": "668b8e71db2a2df10ed79e24",
   "csit-entrance-Maths": "668b8e71db2a2df10ed79e24",
   "csit-entrance-English": "667e8224b30ee779591c1639",
-  "csit-entrance-Chemistry": "66601aa37314e240c50009a1",
+  "csit-entrance-Chemistry": "668d89dfed1a4a4f20e53694",
   "csit-entrance-Computer-Gk": "66601aa37314e240c50009a1",
 };
 

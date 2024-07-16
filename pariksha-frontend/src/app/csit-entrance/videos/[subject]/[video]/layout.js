@@ -65,7 +65,7 @@ export default function Layout({ children, params }) {
             <picture>
               <source
                 media="(max-width: 800px)"
-                srcset="/adImages/ad-200.webp"
+                srcSet="/adImages/ad-200.webp"
               />
               <source
                 media="(min-width: 800px)"

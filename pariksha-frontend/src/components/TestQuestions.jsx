@@ -107,15 +107,18 @@ const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
               <p className="text-md mt-2 font-bold">
                 {globalQuestionIndex + startIdx + idx + 1}.
               </p>
-              <p className="leading-8">{renderMath(question.questionText)}</p>
-              {question.image ? (
-                <Image
-                  src={question.image}
-                  alt={question.image}
-                  width={100}
-                  height={100}
-                />
-              ) : null}
+              <div>
+                <p className="leading-8">{renderMath(question.questionText)}</p>
+                {question.image ? (
+                  <Image
+                    src={question.image}
+                    alt={question.image}
+                    width={250}
+                    height={250}
+                    className="m-auto my-2"
+                  />
+                ) : null}
+              </div>
             </div>
             <div className="pl-2">
               <RadioGroup

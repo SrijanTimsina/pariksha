@@ -35,7 +35,7 @@ export default function FullPageAd() {
             <picture>
               <source
                 media="(max-width: 800px)"
-                srcset="/adImages/fullpagead-portrait.webp"
+                srcSet="/adImages/fullpagead-portrait.webp"
               />
               <source
                 media="(min-width: 800px)"

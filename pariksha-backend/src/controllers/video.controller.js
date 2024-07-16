@@ -67,7 +67,7 @@ const updateUserWatchHistory = asyncHandler(async (req, res) => {
   );
   return res
     .status(200)
-    .json(new ApiResponse(200, user, "User subject watching updated."));
+    .json(new ApiResponse(200, {}, "User subject watching updated."));
 });
 
 export { createVideo, getVideo, updateUserWatchHistory };

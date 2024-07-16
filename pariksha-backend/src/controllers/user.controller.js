@@ -7,6 +7,7 @@ import { SubmittedTests } from "../models/submittedtests.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import otpGenerator from "otp-generator";
 import jwt from "jsonwebtoken";
+import { watch } from "fs";
 
 const accessTokenOptions = {
   httpOnly: true,
@@ -309,7 +310,6 @@ const getCurrentUser = asyncHandler(async (req, res) => {
   const userSubmittedTests = await SubmittedTests.find({
     userId: req.user._id,
   });
-  console.log(userSubmittedTests);
 
   return res
     .status(200)

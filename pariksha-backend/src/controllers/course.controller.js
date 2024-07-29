@@ -36,20 +36,18 @@ const getAllCourses = asyncHandler(async (req, res) => {
 const getCourseData = asyncHandler(async (req, res) => {
   const { link } = req.params;
 
-  const course = await Course.findOne({ link: link }).populate([
-    {
-      path: "subjects",
-      populate: {
-        path: "sections",
-        populate: {
-          path: "videos",
-        },
+  const course = await Course.findOne({ link: link })
+    .select("-createdAt -updatedAt -__v")
+    .populate([
+      {
+        path: "subjects",
+        select: "title duration videoCount",
       },
-    },
-    {
-      path: "questionSets",
-    },
-  ]);
+      {
+        path: "questionSets",
+        select: "title link avgScore setType number",
+      },
+    ]);
 
   return res
     .status(200)

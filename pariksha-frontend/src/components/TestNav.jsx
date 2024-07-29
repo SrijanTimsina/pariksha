@@ -22,7 +22,7 @@ export default function TestNav({
                 {minutes <= 9 ? `0${minutes}` : minutes}:
                 {seconds <= 9 ? `0${seconds}` : seconds}
               </p>
-            )} // Render prop to display remaining time
+            )}
           />
 
           <p>{count}/100</p>

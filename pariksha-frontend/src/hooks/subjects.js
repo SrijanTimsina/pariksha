@@ -13,8 +13,9 @@ export const getSubjectInfo = async (subjectTitle, CourseTitle) => {
 };
 
 export const updateUserSubjectWatching = async (userData) => {
-  const { data } = await axiosInstance.post(`/subject/updateUserSubjectVideo`, {
-    userData: userData,
-  });
+  const { data } = await axiosInstance.post(
+    `/subject/updateUserSubjectVideo`,
+    userData
+  );
   return data.data;
 };

@@ -20,6 +20,7 @@ import { HStack, PinInput, PinInputField } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/utils/AuthContext";
 import Countdown from "react-countdown";
+import Spinner from "@/utils/Spinner";
 
 const loginDetailsSchema = z.object({
   contactNumber: z
@@ -169,6 +170,10 @@ const SignupForm = () => {
 
   return (
     <div>
+      {(userCheck.isPending ||
+        userSignup.isPending ||
+        sendUserOtp.isPending ||
+        userLogin.isPending) && <Spinner />}
       <div className="m-auto flex h-full w-full max-w-[450px] flex-col items-center justify-between border-2 border-gray-200 bg-white py-8">
         <Image
           src={"/ParikshaLogo.webp"}

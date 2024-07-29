@@ -1,3 +1,5 @@
+self.__WB_DISABLE_DEV_LOGS = true;
+
 self.addEventListener("push", (event) => {
   const data = event.data.json();
   const options = {

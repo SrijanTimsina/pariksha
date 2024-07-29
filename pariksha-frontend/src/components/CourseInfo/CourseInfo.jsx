@@ -2,7 +2,7 @@
 
 import { getCourseData } from "@/hooks/courses";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { use, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/utils/AuthContext";
@@ -11,7 +11,7 @@ import CourseDrawer from "../CourseDrawer/CourseDrawer";
 import PreviewVIdeo from "../PreviewVIdeo";
 
 function CourseInfo({ link }) {
-  const { user } = useAuth();
+  const { testScores } = useAuth();
   const {
     data: courseData,
     isPending,
@@ -76,15 +76,15 @@ function CourseInfo({ link }) {
                             <p className="border-r-2 border-solid border-primary pr-4 text-gray-600">
                               Score :{" "}
                               <span className="font-semibold">
-                                {user?.testScores?.[questionSet._id]
-                                  ? user.testScores[questionSet._id]
-                                  : "_"}{" "}
+                                {testScores?.[questionSet._id]
+                                  ? testScores[questionSet._id]
+                                  : "_"}
                               </span>
                             </p>
                             <p className="text-gray-600">
                               Avg Score :{" "}
                               <span className="font-semibold">
-                                {parseFloat(questionSet.avgScore.toFixed(2))}{" "}
+                                {parseFloat(questionSet.avgScore.toFixed(2))}
                               </span>
                             </p>
                           </div>
@@ -119,8 +119,8 @@ function CourseInfo({ link }) {
                             <p className="border-r-2 border-solid border-primary pr-4 text-gray-600">
                               Score :{" "}
                               <span className="font-semibold">
-                                {user?.testScores?.[questionSet._id]
-                                  ? user.testScores[questionSet._id]
+                                {testScores?.[questionSet._id]
+                                  ? testScores[questionSet._id]
                                   : "_"}{" "}
                               </span>
                             </p>

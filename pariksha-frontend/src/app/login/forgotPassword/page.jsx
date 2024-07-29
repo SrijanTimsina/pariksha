@@ -17,6 +17,7 @@ import {
 } from "@/hooks/auth";
 import { useRouter } from "next/navigation";
 import Countdown from "react-countdown";
+import Spinner from "@/utils/Spinner";
 
 const identifierSchema = z.object({
   identifier: z.union([
@@ -157,6 +158,9 @@ export default function page() {
 
   return (
     <div className="content-container">
+      {(checkUser.isPending ||
+        otpVerify.isPending ||
+        passwordReset.isPending) && <Spinner />}
       <div className="m-auto flex h-full w-full max-w-96 flex-col items-center justify-between border-2 border-gray-200 bg-white py-8">
         {/* {userLogin.isPending && <Spinner />} */}
         <Image

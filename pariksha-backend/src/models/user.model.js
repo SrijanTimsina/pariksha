@@ -29,7 +29,6 @@ const userSchema = new Schema(
     abroadPlans: { type: Boolean, required: true },
     enrolledCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
     watchHistory: { type: Array, default: [] },
-    testScores: { type: Object, default: {} },
     subjectCurrentWatching: { type: Object, default: {} },
     userType: {
       type: String,

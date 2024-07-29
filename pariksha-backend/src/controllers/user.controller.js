@@ -7,7 +7,6 @@ import { SubmittedTests } from "../models/submittedtests.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import otpGenerator from "otp-generator";
 import jwt from "jsonwebtoken";
-import { watch } from "fs";
 
 const accessTokenOptions = {
   httpOnly: true,
@@ -309,7 +308,10 @@ const resetPassword = asyncHandler(async (req, res) => {
 const getCurrentUser = asyncHandler(async (req, res) => {
   const userSubmittedTests = await SubmittedTests.find({
     userId: req.user._id,
-  });
+  })
+    .sort({ createdAt: -1 })
+    .select("-userId -__v -updatedAt")
+    .populate({ path: "questionSetId", select: "avgScore link title" });
 
   return res
     .status(200)

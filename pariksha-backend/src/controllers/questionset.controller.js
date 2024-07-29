@@ -70,23 +70,47 @@ const getAllQuestionSets = asyncHandler(async (req, res) => {
 const getQuestionSet = asyncHandler(async (req, res) => {
   const { link } = req.params;
 
-  const questionSet = await QuestionSet.findOne({ link: link }).populate({
-    path: "subjects",
-    populate: {
-      path: "questions",
-      select: "-correctAnswer",
-    },
-  });
+  const questionSet = await QuestionSet.findOne({ link: link })
+    .select("avgScore subjects title")
+    .populate({
+      path: "subjects",
+      populate: {
+        path: "questions",
+        select: "-correctAnswer",
+      },
+    });
+
+  const userScore = await SubmittedTests.findOne({
+    userId: req.user._id,
+    questionSetId: questionSet._id,
+  })
+    .sort({ score: -1 })
+    .exec();
 
   if (!questionSet) {
     throw new ApiError(404, "Question set not found.");
   }
 
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(200, questionSet, "Question set fetched successfully.")
-    );
+  const questionScores = await QuestionScores.findOne({
+    questionSetId: questionSet._id,
+  });
+
+  let userRank = "_";
+  if (userScore?.score) {
+    const rank = await questionScores.findRank(userScore.score);
+    userRank = `${rank}/${questionScores.scores.length < rank ? rank : questionScores.scores.length}`;
+  }
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        questionSet,
+        userRank: userRank,
+      },
+      "Question set fetched successfully."
+    )
+  );
 });
 
 const submitTestAnswers = asyncHandler(async (req, res) => {
@@ -154,14 +178,6 @@ const submitTestAnswers = asyncHandler(async (req, res) => {
 
   const percentile =
     100 - (userRank * 100) / updatedQuestionSet.submissionCount;
-
-  User.findByIdAndUpdate(
-    req.user._id,
-    {
-      $set: { [`testScores.${id}`]: userScore },
-    },
-    { upsert: true }
-  );
 
   SubmittedTests.create({
     questionSetId: id,

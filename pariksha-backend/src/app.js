@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import nocache from "nocache";
 
 const app = express();
 const allowedOrigins = process.env.CORS_ORIGIN;
@@ -33,7 +34,7 @@ import questionSetRouter from "./routes/questionset.route.js";
 import formSubmissionRouter from "./routes/formSubmission.route.js";
 import notificationRouter from "./routes/notification.route.js";
 
-app.use("/api/v1/users", userRouter);
+app.use("/api/v1/users", nocache(), userRouter);
 app.use("/api/v1/course", courseRouter);
 app.use("/api/v1/subject", subjectRouter);
 app.use("/api/v1/section", sectionRouter);

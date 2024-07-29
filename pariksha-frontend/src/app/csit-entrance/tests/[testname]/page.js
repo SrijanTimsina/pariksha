@@ -15,11 +15,13 @@ import withAuth from "@/utils/withAuth";
 import Image from "next/image";
 import Spinner from "@/utils/Spinner";
 import Link from "next/link";
+import BannerAd from "@/components/BannerAd";
 
 function page({ params }) {
   const testName = params.testname;
   const [testStatus, setTestStatus] = useState("not_started");
   const [countdownDate, setCountdownDate] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const [userSelectedAnswers, setUserSelectedAnswers] = useState({});
   const [testSummary, setTestSummary] = useState({});
@@ -40,7 +42,9 @@ function page({ params }) {
     isError: isSubmitError,
   } = useMutation({
     mutationFn: () =>
-      submitTestAnswers(testData?._id, { answers: userSelectedAnswers }),
+      submitTestAnswers(testData?.questionSet._id, {
+        answers: userSelectedAnswers,
+      }),
     onSuccess: (data) => {
       setTestStatus("summary");
       setTestSummary(data);
@@ -50,56 +54,34 @@ function page({ params }) {
   const handleSubmit = () => {
     submitAnswer();
   };
+  const pageChanged = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div>
-      {/* <Spinner /> */}
       {isPending && <Spinner />}
       {isSubmitting && <Spinner />}
       {testData && (
         <div className=" ">
           {testStatus === "not_started" && (
             <TestDetails
-              title={testData?.title}
               start={() => {
                 setTestStatus("running");
                 setCountdownDate(Date.now() + 7200 * 1000);
               }}
-              questionsCount={100}
-              totalMarks={100}
-              time={"2 Hours"}
               data={testData}
             />
           )}
           {testStatus === "running" && (
             <div>
               <div className="my-6 flex w-full flex-col items-center">
-                <Link
-                  href={`https://pariksha.solutions/new-summit-college`}
-                  target="_blank"
-                >
-                  <picture>
-                    <source
-                      media="(max-width: 800px)"
-                      srcSet="/adImages/ad-200.webp"
-                    />
-                    <source
-                      media="(min-width: 800px)"
-                      srcSet="/adImages/ad-100.webp"
-                    />
-                    <Image
-                      src="/adImages/ad-100.webp"
-                      alt="New Summit College"
-                      height={100}
-                      width={1200}
-                    />
-                  </picture>
-                </Link>
+                <BannerAd currentPage={currentPage} />
               </div>
               <div className="m-auto w-full max-w-[1200px]">
                 <TestNav
                   count={Object.keys(userSelectedAnswers).length}
-                  title={testData?.title}
+                  title={testData.questionSet?.title}
                   countdownDate={countdownDate}
                   handleSubmit={handleSubmit}
                   onTimerEnd={() => {
@@ -116,45 +98,26 @@ function page({ params }) {
                 />
 
                 <TestQuestions
-                  subjects={testData.subjects}
+                  subjects={testData.questionSet.subjects}
                   setUserSelectedAnswers={setUserSelectedAnswers}
+                  pageChanged={pageChanged}
                 />
               </div>
               <div className="m-auto mt-4 flex w-full max-w-[1200px] flex-col items-center border-t-2 border-gray-dark pt-8">
-                <Link
-                  href={`https://pariksha.solutions/new-summit-college`}
-                  target="_blank"
-                >
-                  <picture>
-                    <source
-                      media="(max-width: 800px)"
-                      srcSet="/adImages/ad-200.webp"
-                    />
-                    <source
-                      media="(min-width: 800px)"
-                      srcSet="/adImages/ad-100.webp"
-                    />
-                    <Image
-                      src="/adImages/ad-100.webp"
-                      alt="New Summit College"
-                      height={100}
-                      width={1200}
-                    />
-                  </picture>
-                </Link>
+                <BannerAd currentPage={currentPage} />
               </div>
             </div>
           )}
           {testSummary && testStatus === "summary" && (
             <TestSummary
-              title={testData?.title}
+              title={testData?.questionSet?.title}
               data={testSummary}
               review={() => setTestStatus("review")}
             />
           )}
           {testSummary && testStatus === "review" && (
             <TestAnswersReview
-              title={testData?.title}
+              title={testData?.questionSet?.title}
               data={testSummary}
               setTestStatus={setTestStatus}
             />

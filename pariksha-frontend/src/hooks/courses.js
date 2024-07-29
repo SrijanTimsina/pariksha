@@ -17,5 +17,6 @@ export const getCourseData = async () => {
       withCredentials: true,
     }
   );
+
   return data.data;
 };

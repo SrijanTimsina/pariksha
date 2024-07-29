@@ -70,14 +70,11 @@ const getSubjectInfo = asyncHandler(async (req, res) => {
 });
 
 const updateUserSubjectVideo = asyncHandler(async (req, res) => {
-  const { userData } = req.body;
+  const { videoId, subject } = req.body;
 
-  const user = await User.findByIdAndUpdate(
-    req.user?._id,
-    {
-      $set: { subjectCurrentWatching: userData },
-    },
-    { new: true }
+  await User.updateOne(
+    { _id: req.user?._id },
+    { $set: { [`subjectCurrentWatching.${subject}`]: videoId } }
   );
 
   return res

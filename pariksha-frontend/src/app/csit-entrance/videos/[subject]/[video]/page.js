@@ -2,20 +2,24 @@
 
 import Video from "@/components/Video";
 import React, { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getVideo } from "@/hooks/videos";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { addToWatchHistory, getVideo } from "@/hooks/videos";
 import { useAuth } from "@/utils/AuthContext";
 import withAuth from "@/utils/withAuth";
 
 import Spinner from "@/utils/Spinner";
 
 function VideoPage({ params }) {
+  const watchHistoryAdd = useMutation({
+    mutationFn: (data) => addToWatchHistory(data),
+  });
   const { changeSubjectCurrentWatching } = useAuth();
   const videoId = params.video;
   const subject = params.subject;
 
   useEffect(() => {
     changeSubjectCurrentWatching(`csit-entrance-${subject}`, videoId);
+    watchHistoryAdd.mutate({ videoId: videoId, subject: subject });
   }, []);
 
   const {

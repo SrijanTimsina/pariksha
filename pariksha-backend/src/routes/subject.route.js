@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+import nocache from "nocache";
 
 import {
   createSubject,
@@ -11,6 +12,8 @@ const router = Router();
 
 router.route("/create").post(createSubject);
 router.route("/getSubjectInfo/:courseTitle/:subjectTitle").get(getSubjectInfo);
-router.route("/updateUserSubjectVideo").post(verifyJWT, updateUserSubjectVideo);
+router
+  .route("/updateUserSubjectVideo")
+  .post(nocache(), verifyJWT, updateUserSubjectVideo);
 
 export default router;

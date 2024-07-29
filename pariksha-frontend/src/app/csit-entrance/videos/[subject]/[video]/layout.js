@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
+import BannerAd from "@/components/BannerAd";
 
 export default function Layout({ children, params }) {
   const [nextVideo, setNextVideo] = useState(null);
@@ -58,27 +59,7 @@ export default function Layout({ children, params }) {
           </div>
         </div>
         <div className="my-2 flex w-full flex-col items-center">
-          <Link
-            href={`https://pariksha.solutions/new-summit-college`}
-            target="_blank"
-          >
-            <picture>
-              <source
-                media="(max-width: 800px)"
-                srcSet="/adImages/ad-200.webp"
-              />
-              <source
-                media="(min-width: 800px)"
-                srcSet="/adImages/ad-100.webp"
-              />
-              <Image
-                src="/adImages/ad-100.webp"
-                alt="New Summit College"
-                height={100}
-                width={1200}
-              />
-            </picture>
-          </Link>
+          <BannerAd currentPage={1} />
         </div>
         <div className="m-auto mt-1 w-full max-w-[1300px] border-t-2 border-gray-dark">
           <Tabs colorScheme={"teal"} defaultIndex={1}>

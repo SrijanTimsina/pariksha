@@ -13,6 +13,7 @@ export function AuthProvider({ children }) {
   const [watchHistory, setWatchHistory] = useState([]);
   const [subjectCurrentWatching, setSubjectCurrentWatching] = useState({});
   const [testHistory, setTestHistory] = useState([]);
+  const [testScores, setTestScores] = useState({});
   const queryClient = useQueryClient();
 
   const { data, isPending, isError } = useQuery({
@@ -35,23 +36,33 @@ export function AuthProvider({ children }) {
       setUser(data.user);
       setSubjectCurrentWatching(data.user.subjectCurrentWatching);
       setWatchHistory(data.user.watchHistory);
-      setTestHistory(data.testHistory);
+      const testHistory = data.testHistory.map((item) => {
+        return {
+          score: item.score,
+          questionSetId: item.questionSetId._id,
+          createdAt: item.createdAt,
+          questionSetData: item.questionSetId,
+          _id: item._id,
+        };
+      });
+      setTestHistory(testHistory);
     }
   }, [data]);
 
   useEffect(() => {
-    if (
-      subjectCurrentWatching &&
-      Object.keys(subjectCurrentWatching).length > 0
-    ) {
-      updateUserWatching.mutate(subjectCurrentWatching);
+    if (testHistory) {
+      const result = testHistory.reduce((acc, current) => {
+        const { questionSetId, score } = current;
+
+        if (!acc[questionSetId] || acc[questionSetId] < score) {
+          acc[questionSetId] = score;
+        }
+
+        return acc;
+      }, {});
+      setTestScores(result);
     }
-  }, [subjectCurrentWatching]);
-  useEffect(() => {
-    if (watchHistory && watchHistory.length > 0) {
-      updateWatchHistory.mutate(watchHistory);
-    }
-  }, [watchHistory]);
+  }, [testHistory]);
 
   const login = () => {
     queryClient.invalidateQueries(["current-user"]);
@@ -62,16 +73,26 @@ export function AuthProvider({ children }) {
       ...prevState,
       [subject]: videoId,
     }));
+    updateUserWatching.mutate({ subject: subject, videoId: videoId });
   };
 
   const removeFromWatchHistory = (videoId) => {
     if (watchHistory.includes(videoId)) {
       setWatchHistory((prevState) => prevState.filter((id) => id !== videoId));
+      updateWatchHistory.mutate({
+        option: "remove",
+        videoId: videoId,
+      });
     }
   };
   const addToWatchHistory = (videoId) => {
-    if (!watchHistory.includes(videoId))
+    if (!watchHistory.includes(videoId)) {
       setWatchHistory((prevState) => [...prevState, videoId]);
+      updateWatchHistory.mutate({
+        option: "add",
+        videoId: videoId,
+      });
+    }
   };
 
   const logout = () => {
@@ -90,6 +111,7 @@ export function AuthProvider({ children }) {
         testHistory,
         login,
         logout,
+        testScores,
       }}
     >
       {children}

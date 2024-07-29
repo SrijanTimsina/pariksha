@@ -6,6 +6,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { ChakraProvider } from "@chakra-ui/react";
 import { AuthProvider } from "./AuthContext";
+import { AdProvider } from "./AdContext";
+import { PwaInstallProvider } from "./PwaInstallContext";
 
 export function Providers({ children }) {
   const [queryClient] = React.useState(
@@ -23,10 +25,14 @@ export function Providers({ children }) {
   return (
     <ChakraProvider>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          {/* <ReactQueryDevtools /> */}
-          {children}
-        </AuthProvider>
+        <AdProvider>
+          <AuthProvider>
+            <PwaInstallProvider>
+              {/* <ReactQueryDevtools /> */}
+              {children}
+            </PwaInstallProvider>
+          </AuthProvider>
+        </AdProvider>
       </QueryClientProvider>
     </ChakraProvider>
   );

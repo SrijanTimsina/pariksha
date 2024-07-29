@@ -15,18 +15,21 @@ import QuestionSelector from "@/components/QuestionSelector";
 import Image from "next/image";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
-const TestQuestions = ({ subjects, setUserSelectedAnswers }) => {
+const TestQuestions = ({ subjects, setUserSelectedAnswers, pageChanged }) => {
   const [currentSubjectIndex, setCurrentSubjectIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
   const questionsPerPage = 1;
   const [questionSelectorCount, setQuestionSelectorCount] = useState(
-    subjects[0].questions.length
+    subjects?.[0].questions.length
   );
 
   if (!subjects || subjects.length === 0) {
     return <div>No subjects available</div>;
   }
+  useEffect(() => {
+    pageChanged(currentPage);
+  }, [currentPage]);
 
   const currentSubject = subjects[currentSubjectIndex];
 
